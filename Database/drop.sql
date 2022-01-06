@@ -1,0 +1,10 @@
+DROP TABLE Odwolanie;
+DROP TABLE FormulazProtokolu;
+DROP TABLE Protokol;
+DROP TABLE Hospitacja;
+DROP TABLE Prowadzacy_ZespolHospitujacy;
+DROP TABLE ZespolHospitujacy;
+DROP TABLE Harmonogram;
+DROP TABLE GrupaZajeciowa;
+DROP TABLE Prowadzacy;
+DROP TABLE Kurs;
