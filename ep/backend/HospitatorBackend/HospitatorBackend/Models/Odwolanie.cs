@@ -23,8 +23,8 @@ namespace HospitatorBackend.Models
         [Column("uzasadnienie")]
         [StringLength(255)]
         public string? Uzasadnienie { get; set; }
-        [Column("_status", TypeName = "int(11)")]
-        public int? Status { get; set; }
+        [Column("_status", TypeName = "enum('oczekujaca','odrzucona','akceptowana')")]
+        public string? Status { get; set; }
 
         [ForeignKey(nameof(ProtokolId))]
         [InverseProperty("Odwolanie")]

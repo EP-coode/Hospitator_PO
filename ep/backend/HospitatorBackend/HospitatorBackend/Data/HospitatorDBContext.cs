@@ -21,12 +21,12 @@ namespace HospitatorBackend.Data
         public virtual DbSet<Grupazajeciowa> Grupazajeciowas { get; set; } = null!;
         public virtual DbSet<Harmonogram> Harmonograms { get; set; } = null!;
         public virtual DbSet<Hospitacja> Hospitacjas { get; set; } = null!;
-        public virtual DbSet<Kurs> Kurs { get; set; } = null!;
+        public virtual DbSet<Kur> Kurs { get; set; } = null!;
         public virtual DbSet<Odwolanie> Odwolanies { get; set; } = null!;
         public virtual DbSet<Protokol> Protokols { get; set; } = null!;
         public virtual DbSet<Prowadzacy> Prowadzacies { get; set; } = null!;
-        public virtual DbSet<ProwadzacyZespolhospitujacy> ProwadzacyZespolhospitujacies { get; set; } = null!;
         public virtual DbSet<Zespolhospitujacy> Zespolhospitujacies { get; set; } = null!;
+        //public virtual DbSet<Prowadzacy_ZespolHospitujacy> Prowadzacy_ZespolHospitujacy { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,8 +44,6 @@ namespace HospitatorBackend.Data
 
             modelBuilder.Entity<Formulazprotokolu>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Protokol)
                     .WithMany(p => p.Formulazprotokolus)
                     .HasForeignKey(d => d.ProtokolId)
@@ -68,15 +66,8 @@ namespace HospitatorBackend.Data
                     .HasConstraintName("grupa_zaj_fk_p");
             });
 
-            modelBuilder.Entity<Harmonogram>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<Hospitacja>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Harmonogram)
                     .WithMany(p => p.Hospitacjas)
                     .HasForeignKey(d => d.HarmonogramId)
@@ -98,7 +89,7 @@ namespace HospitatorBackend.Data
                     .HasConstraintName("hospitacja_ibfk_2");
             });
 
-            modelBuilder.Entity<Kurs>(entity =>
+            modelBuilder.Entity<Kur>(entity =>
             {
                 entity.HasKey(e => e.Kod)
                     .HasName("PRIMARY");
@@ -106,8 +97,6 @@ namespace HospitatorBackend.Data
 
             modelBuilder.Entity<Odwolanie>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Protokol)
                     .WithOne(p => p.Odwolanie)
                     .HasForeignKey<Odwolanie>(d => d.ProtokolId)
@@ -120,38 +109,36 @@ namespace HospitatorBackend.Data
                     .HasConstraintName("odwolanie_ibfk_2");
             });
 
-            modelBuilder.Entity<Protokol>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<Prowadzacy>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+                entity.HasMany(d => d.Zespols)
+                    .WithMany(p => p.Prowadzacies)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "ProwadzacyZespolhospitujacy",
+                        l => l.HasOne<Zespolhospitujacy>().WithMany().HasForeignKey("ZespolId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("prowadzacy_zespolhospitujacy_ibfk_2"),
+                        r => r.HasOne<Prowadzacy>().WithMany().HasForeignKey("ProwadzacyId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("prowadzacy_zespolhospitujacy_ibfk_1"),
+                        j =>
+                        {
+                            j.HasKey("ProwadzacyId", "ZespolId").HasName("PRIMARY").HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-            modelBuilder.Entity<ProwadzacyZespolhospitujacy>(entity =>
-            {
-                entity.HasOne(d => d.Prowadzacy)
-                    .WithMany()
-                    .HasForeignKey(d => d.ProwadzacyId)
-                    .HasConstraintName("prowadzacy_zespolhospitujacy_ibfk_1");
+                            j.ToTable("prowadzacy_zespolhospitujacy");
 
-                entity.HasOne(d => d.Zespol)
-                    .WithMany()
-                    .HasForeignKey(d => d.ZespolId)
-                    .HasConstraintName("prowadzacy_zespolhospitujacy_ibfk_2");
+                            j.HasIndex(new[] { "ZespolId" }, "zespol_id");
+
+                            j.IndexerProperty<int>("ProwadzacyId").HasColumnType("int(11)").HasColumnName("prowadzacy_id");
+
+                            j.IndexerProperty<int>("ZespolId").HasColumnType("int(11)").HasColumnName("zespol_id");
+                        });
             });
 
             modelBuilder.Entity<Zespolhospitujacy>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Prowadzacy)
                     .WithMany(p => p.Zespolhospitujacies)
                     .HasForeignKey(d => d.ProwadzacyId)
                     .HasConstraintName("zesp_hosp_fk_p");
             });
+
 
             OnModelCreatingPartial(modelBuilder);
         }

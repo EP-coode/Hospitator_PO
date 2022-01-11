@@ -31,8 +31,8 @@ namespace HospitatorBackend.Models
         [InverseProperty("Hospitacjas")]
         public virtual Harmonogram? Harmonogram { get; set; }
         [ForeignKey(nameof(KursKod))]
-        [InverseProperty(nameof(Kurs.Hospitacjas))]
-        public virtual Kurs? KursKodNavigation { get; set; }
+        [InverseProperty(nameof(Kur.Hospitacjas))]
+        public virtual Kur? KursKodNavigation { get; set; }
         [ForeignKey(nameof(ProwadzacyId))]
         [InverseProperty("Hospitacjas")]
         public virtual Prowadzacy? Prowadzacy { get; set; }

@@ -13,6 +13,7 @@ namespace HospitatorBackend.Models
         public Zespolhospitujacy()
         {
             Hospitacjas = new HashSet<Hospitacja>();
+            Prowadzacies = new HashSet<Prowadzacy>();
         }
 
         [Key]
@@ -26,5 +27,11 @@ namespace HospitatorBackend.Models
         public virtual Prowadzacy? Prowadzacy { get; set; }
         [InverseProperty(nameof(Hospitacja.ZespolHospitujacy))]
         public virtual ICollection<Hospitacja> Hospitacjas { get; set; }
+
+        [ForeignKey("ZespolId")]
+        [InverseProperty("Zespols")]
+        public virtual ICollection<Prowadzacy> Prowadzacies { get; set; }
+
+        //public virtual ICollection<Prowadzacy_ZespolHospitujacy> Skald { get; set ;}
     }
 }

@@ -14,8 +14,8 @@ namespace HospitatorBackend.Models
         [Key]
         [Column("kod")]
         public string Kod { get; set; } = null!;
-        [Column("dzien", TypeName = "int(11)")]
-        public int? Dzien { get; set; }
+        [Column("dzien", TypeName = "enum('pn','wt','sr','czw','pt','sob','nd')")]
+        public string? Dzien { get; set; }
         [Column("godzina", TypeName = "int(11)")]
         public int? Godzina { get; set; }
         [Column("minuta", TypeName = "int(11)")]
@@ -34,8 +34,8 @@ namespace HospitatorBackend.Models
         public int? ProwadzacyId { get; set; }
 
         [ForeignKey(nameof(KursKod))]
-        [InverseProperty(nameof(Kurs.Grupazajeciowas))]
-        public virtual Kurs? KursKodNavigation { get; set; }
+        [InverseProperty(nameof(Kur.Grupazajeciowas))]
+        public virtual Kur? KursKodNavigation { get; set; }
         [ForeignKey(nameof(ProwadzacyId))]
         [InverseProperty("Grupazajeciowas")]
         public virtual Prowadzacy? Prowadzacy { get; set; }

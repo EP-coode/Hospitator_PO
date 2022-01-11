@@ -1,15 +1,22 @@
-
 -- @BLOCK
 CREATE TABLE Kurs(
     kod VARCHAR(255),
-    forma INTEGER,
+    forma ENUM(
+        'wyklad',
+        'labolatorium',
+        'cwiczenia',
+        'projekt',
+        'seminarium',
+        'praktyki',
+        'praca_dyplomowa'
+    ),
     nazwa VARCHAR(255),
     Semestr INTEGER,
     CONSTRAINT kurs_pk PRIMARY KEY(kod)
 );
 -- @BLOCK
 CREATE TABLE Prowadzacy(
-    id INTEGER,
+    id INTEGER AUTO_INCREMENT,
     data_ost_hospitacji DATE,
     habilitowany BOOLEAN,
     uznany BOOLEAN,
@@ -22,11 +29,10 @@ CREATE TABLE Prowadzacy(
     jednostka_organizacyjna VARCHAR(255),
     CONSTRAINT prowadzacy_pk PRIMARY KEY(id)
 );
-
 -- @BLOCK
 CREATE TABLE GrupaZajeciowa(
     kod VARCHAR(255),
-    dzien INTEGER,
+    dzien ENUM('pn', 'wt', 'sr', 'czw', 'pt', 'sob', 'nd'),
     godzina INTEGER,
     minuta INTEGER,
     nazwa VARCHAR(255),
@@ -38,60 +44,52 @@ CREATE TABLE GrupaZajeciowa(
     CONSTRAINT grupa_zaj_fk_k FOREIGN KEY (kurs_kod) REFERENCES Kurs(kod),
     CONSTRAINT grupa_zaj_fk_p FOREIGN KEY (prowadzacy_id) REFERENCES Prowadzacy(id)
 );
-
 -- @BLOCK 
 CREATE TABLE Harmonogram(
-    id INTEGER,
+    id INTEGER AUTO_INCREMENT,
     zatwierdzony_wkozjk BOOLEAN,
     zatwierdzony_dyrektor BOOLEAN,
-
     CONSTRAINT harmonogram_pk PRIMARY KEY (id)
 );
-
 -- @BLOCK
 CREATE TABLE ZespolHospitujacy(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
     prowadzacy_id INTEGER,
     CONSTRAINT zesp_hosp_fk_p FOREIGN KEY (prowadzacy_id) REFERENCES Prowadzacy(id)
 );
-
 -- @BLOCK
 CREATE TABLE Prowadzacy_ZespolHospitujacy(
     prowadzacy_id INTEGER,
     zespol_id INTEGER,
-
     FOREIGN KEY (prowadzacy_id) REFERENCES Prowadzacy(id),
-    FOREIGN KEY (zespol_id) REFERENCES ZespolHospitujacy(id)
+    FOREIGN KEY (zespol_id) REFERENCES ZespolHospitujacy(id),
+     PRIMARY KEY(prowadzacy_id, zespol_id)
 );
-
 -- @BLOCK
 CREATE TABLE Hospitacja(
-    id INTEGER,
-    termin DATE, -- tutaj date czy datetime lepiej ?
+    id INTEGER AUTO_INCREMENT,
+    termin DATE,
     harmonogram_id INTEGER,
     zespol_hospitujacy_id INTEGER,
     prowadzacy_id INTEGER,
     kurs_kod VARCHAR(255),
-
     PRIMARY KEY (id),
     FOREIGN KEY (harmonogram_id) REFERENCES Harmonogram(id),
     FOREIGN KEY (zespol_hospitujacy_id) REFERENCES ZespolHospitujacy(id),
     FOREIGN KEY (prowadzacy_id) REFERENCES Prowadzacy(id),
     FOREIGN KEY (kurs_kod) REFERENCES Kurs(kod)
 );
-
 -- @BLOCK
 CREATE TABLE Protokol(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
     hospitacja_id INTEGER NOT NULL UNIQUE,
     data_wystawienia DATE,
     zakceptowane BOOLEAN,
     data_zapoznania DATE
 );
-
 -- @BLOCK
 CREATE TABLE FormulazProtokolu(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
     protokol_id INTEGER,
     ocena_koncowa INTEGER,
     punktualnie BOOLEAN,
@@ -101,19 +99,16 @@ CREATE TABLE FormulazProtokolu(
     sala_przystosowana BOOLEAN,
     powody_nieprzystosowania VARCHAR(255),
     tresc_kursu_zgodna BOOLEAN,
-
     FOREIGN KEY (protokol_id) REFERENCES Protokol(id)
 );
-
 -- @BLOCK
 CREATE TABLE Odwolanie(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
     protokol_id INTEGER NOT NULL UNIQUE,
     prowadzacy_id INTEGER,
     data_odwolania DATE,
     uzasadnienie VARCHAR(255),
-    _status INTEGER,
-
+    _status ENUM('oczekujaca', 'odrzucona', 'akceptowana'),
     FOREIGN KEY (protokol_id) REFERENCES Protokol(id),
     FOREIGN KEY (prowadzacy_id) REFERENCES Prowadzacy(id)
 );
