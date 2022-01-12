@@ -103,11 +103,11 @@ namespace HospitatorBackend.Controllers
             return Ok(r);
         }
 
-        [HttpPut("{id_nauczyciela:int}/{id_protokolu:int}")]
-        public async Task<ActionResult<ProtokolDto>> ZakceptujOcene(int id_nauczyciela, int id_protokolu)
+        [HttpPut("{id_prowadzacego:int}/Akceptuj/{id_protokolu:int}")]
+        public async Task<ActionResult<ProtokolDto>> ZakceptujOcene(int id_prowadzacego, int id_protokolu)
         {
             var protokol = _context.Protokoly
-                .Where(p => p.Hospitacja.Prowadzacy.Id == id_nauczyciela && p.Odwolanie == null)
+                .Where(p => p.Hospitacja.Prowadzacy.Id == id_prowadzacego && p.Odwolanie == null)
                 .First(p => p.Id == id_protokolu);
 
             if (protokol == null)
