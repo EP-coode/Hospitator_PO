@@ -34,8 +34,8 @@ namespace HospitatorBackend.Models
         public int? ProwadzacyId { get; set; }
 
         [ForeignKey(nameof(KursKod))]
-        [InverseProperty(nameof(Kur.Grupazajeciowas))]
-        public virtual Kur? KursKodNavigation { get; set; }
+        [InverseProperty(nameof(Kurs.Grupazajeciowas))]
+        public virtual Kurs? KursKodNavigation { get; set; }
         [ForeignKey(nameof(ProwadzacyId))]
         [InverseProperty("Grupazajeciowas")]
         public virtual Prowadzacy? Prowadzacy { get; set; }

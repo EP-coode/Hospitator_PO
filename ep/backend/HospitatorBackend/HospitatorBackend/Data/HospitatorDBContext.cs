@@ -17,15 +17,15 @@ namespace HospitatorBackend.Data
         {
         }
 
-        public virtual DbSet<Formulazprotokolu> Formulazprotokolus { get; set; } = null!;
-        public virtual DbSet<Grupazajeciowa> Grupazajeciowas { get; set; } = null!;
-        public virtual DbSet<Harmonogram> Harmonograms { get; set; } = null!;
-        public virtual DbSet<Hospitacja> Hospitacjas { get; set; } = null!;
-        public virtual DbSet<Kur> Kurs { get; set; } = null!;
-        public virtual DbSet<Odwolanie> Odwolanies { get; set; } = null!;
-        public virtual DbSet<Protokol> Protokols { get; set; } = null!;
-        public virtual DbSet<Prowadzacy> Prowadzacies { get; set; } = null!;
-        public virtual DbSet<Zespolhospitujacy> Zespolhospitujacies { get; set; } = null!;
+        public virtual DbSet<Formulazprotokolu> FromularzeProtokolow { get; set; } = null!;
+        public virtual DbSet<Grupazajeciowa> GrupyZajeciowe { get; set; } = null!;
+        public virtual DbSet<Harmonogram> Harmonogramy { get; set; } = null!;
+        public virtual DbSet<Hospitacja> Hospitacje { get; set; } = null!;
+        public virtual DbSet<Kurs> Kursy { get; set; } = null!;
+        public virtual DbSet<Odwolanie> Odwolania { get; set; } = null!;
+        public virtual DbSet<Protokol> Protokoly { get; set; } = null!;
+        public virtual DbSet<Prowadzacy> Prowadzacy { get; set; } = null!;
+        public virtual DbSet<Zespolhospitujacy> ZespolyHospitujace { get; set; } = null!;
         //public virtual DbSet<Prowadzacy_ZespolHospitujacy> Prowadzacy_ZespolHospitujacy { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,8 +45,8 @@ namespace HospitatorBackend.Data
             modelBuilder.Entity<Formulazprotokolu>(entity =>
             {
                 entity.HasOne(d => d.Protokol)
-                    .WithMany(p => p.Formulazprotokolus)
-                    .HasForeignKey(d => d.ProtokolId)
+                    .WithOne(p => p.Formulazprotokolus)
+                    //.HasForeignKey(d => d)
                     .HasConstraintName("formulazprotokolu_ibfk_1");
             });
 
@@ -87,9 +87,12 @@ namespace HospitatorBackend.Data
                     .WithMany(p => p.Hospitacjas)
                     .HasForeignKey(d => d.ZespolHospitujacyId)
                     .HasConstraintName("hospitacja_ibfk_2");
+
+                entity.HasOne(h => h.Protokol)
+                .WithOne(p => p.Hospitacja);
             });
 
-            modelBuilder.Entity<Kur>(entity =>
+            modelBuilder.Entity<Kurs>(entity =>
             {
                 entity.HasKey(e => e.Kod)
                     .HasName("PRIMARY");
