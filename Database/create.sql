@@ -85,7 +85,9 @@ CREATE TABLE Protokol(
     hospitacja_id INTEGER NOT NULL UNIQUE,
     data_wystawienia DATE,
     zakceptowane BOOLEAN,
-    data_zapoznania DATE
+    data_zapoznania DATE,
+
+    FOREIGN KEY (hospitacja_id) REFERENCES Hospitacja(id)
 );
 -- @BLOCK
 CREATE TABLE FormulazProtokolu(
@@ -99,7 +101,7 @@ CREATE TABLE FormulazProtokolu(
     sala_przystosowana BOOLEAN,
     powody_nieprzystosowania VARCHAR(255),
     tresc_kursu_zgodna BOOLEAN,
-    FOREIGN KEY (protokol_id) REFERENCES Protokol(id)
+    FOREIGN KEY (protokol_id) REFERENCES Protokol(id) ON DELETE CASCADE
 );
 -- @BLOCK
 CREATE TABLE Odwolanie(

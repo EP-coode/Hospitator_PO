@@ -27,7 +27,7 @@ namespace HospitatorBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ZespolHospitujacyDto>>> GetZespolhospitujacies()
         {
-            var query = from zespol in _context.Zespolhospitujacies
+            var query = from zespol in _context.ZespolyHospitujace
                         select new ZespolHospitujacyDto()
                         {
                             Id = zespol.Id,

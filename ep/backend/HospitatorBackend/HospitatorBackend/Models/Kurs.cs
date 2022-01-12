@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace HospitatorBackend.Models
 {
     [Table("kurs")]
-    public partial class Kur
+    public partial class Kurs
     {
-        public Kur()
+        public Kurs()
         {
             Grupazajeciowas = new HashSet<Grupazajeciowa>();
             Hospitacjas = new HashSet<Hospitacja>();
