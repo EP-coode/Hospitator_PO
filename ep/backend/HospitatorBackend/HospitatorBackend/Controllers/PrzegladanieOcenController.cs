@@ -30,9 +30,10 @@ namespace HospitatorBackend.Controllers
                                  Zakceptowane = p.Zakceptowane,
                                  DataWystawienia = p.DataWystawienia,
                                  DataZapoznania = p.DataZapoznania,
-                                 HospitacjaId = p.HospitacjaId,
                                  Formulazprotokolus = p.Formulazprotokolus,
-                                 Odwolanie = p.Odwolanie
+                                 Odwolanie = p.Odwolanie,
+                                 NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
+                                 KodKursu = p.Hospitacja.KursKodNavigation.Kod
                              };
 
             var query_zakceptowane = from p in _context.Protokoly
@@ -43,9 +44,10 @@ namespace HospitatorBackend.Controllers
                                          Zakceptowane = p.Zakceptowane,
                                          DataWystawienia = p.DataWystawienia,
                                          DataZapoznania = p.DataZapoznania,
-                                         HospitacjaId = p.HospitacjaId,
                                          Formulazprotokolus = p.Formulazprotokolus,
-                                         Odwolanie = p.Odwolanie
+                                         Odwolanie = p.Odwolanie,
+                                         NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
+                                         KodKursu = p.Hospitacja.KursKodNavigation.Kod
                                      };
 
             var query_zareklamowane = from p in _context.Protokoly
@@ -56,9 +58,10 @@ namespace HospitatorBackend.Controllers
                                           Zakceptowane = p.Zakceptowane,
                                           DataWystawienia = p.DataWystawienia,
                                           DataZapoznania = p.DataZapoznania,
-                                          HospitacjaId = p.HospitacjaId,
                                           Formulazprotokolus = p.Formulazprotokolus,
-                                          Odwolanie = p.Odwolanie
+                                          Odwolanie = p.Odwolanie,
+                                          NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
+                                          KodKursu = p.Hospitacja.KursKodNavigation.Kod
                                       };
 
             return Ok(new PrzegladOcenDto()
