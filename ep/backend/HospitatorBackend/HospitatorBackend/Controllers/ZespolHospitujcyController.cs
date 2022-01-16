@@ -38,13 +38,62 @@ namespace HospitatorBackend.Controllers
                                 Nazwisko = zespol.Prowadzacy.Nazwisko,
                                 Tytol = zespol.Prowadzacy.Tytol
                             },
-                            Hospitacje = zespol.Hospitacjas,
+                            Hospitacje = zespol.Hospitacjas.Select(h => new HospitacjaDto()
+                            {
+                                Id = h.Id,
+                                KursKod = h.KursKod,
+                                Prowadzacy = h.Prowadzacy,
+                                KursKodNavigation = h.KursKodNavigation,
+                                Termin = h.Termin
+                            }).ToList(),
                             Sklad = zespol.Prowadzacies
                         };
 
             var result = await query.ToListAsync();
 
             return Ok(result);
+
+        }
+
+        [HttpGet("{id_zespolu:int}")]
+        public async Task<ActionResult<ZespolHospitujacyDto>> GetZespolById(int id_zespolu)
+        {
+            var zespol = _context.ZespolyHospitujace
+                  .Include(zh => zh.Prowadzacy)
+                  .Include(zh => zh.Prowadzacies)
+                  .FirstOrDefault(zh => zh.Id == id_zespolu);
+
+            if(zespol == null)
+            {
+                return NotFound();
+            }
+
+            var hospitacje = _context.Hospitacje
+                .Where(h => h.ZespolHospitujacyId == zespol.Id)
+                .Include(h => h.Prowadzacy)
+                .Select(h => new HospitacjaDto()
+                {
+                    Id = h.Id,
+                    KursKod = h.KursKod,
+                    Prowadzacy = h.Prowadzacy,
+                    KursKodNavigation = h.KursKodNavigation,
+                    Termin = h.Termin
+                })
+                .ToList();
+
+            return Ok(new ZespolHospitujacyDto()
+            {
+                Id = zespol.Id,
+                Przewodniczacy = new ProwadzacyDto()
+                {
+                    Id = zespol.Prowadzacy.Id,
+                    Imie = zespol.Prowadzacy.Imie,
+                    Nazwisko = zespol.Prowadzacy.Nazwisko,
+                    Tytol = zespol.Prowadzacy.Tytol
+                },
+                Hospitacje = hospitacje,
+                Sklad = zespol.Prowadzacies
+            });
 
         }
 

@@ -4,21 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 using HospitatorBackend.Dtos;
 using HospitatorBackend.Models;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitatorBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PrzegladanieOcenController : ControllerBase
+    public class OcenyController : ControllerBase
     {
         private readonly HospitatorDBContext _context;
 
-        public PrzegladanieOcenController(HospitatorDBContext context)
+        public OcenyController(HospitatorDBContext context)
         {
             _context = context;
         }
 
-        [HttpGet("/{id_prowadzacego:int}")]
+        [HttpGet("{id_prowadzacego:int}")]
         public ActionResult<PrzegladOcenDto> GetOcenyNauczycielaById(int id_prowadzacego)
         {
             var query_nowe = from p in _context.Protokoly
@@ -27,13 +28,14 @@ namespace HospitatorBackend.Controllers
                              && p.Odwolanie == null
                              select new ProtokolDto()
                              {
+                                 Id = p.Id,
                                  Zakceptowane = p.Zakceptowane,
                                  DataWystawienia = p.DataWystawienia,
                                  DataZapoznania = p.DataZapoznania,
+                                 HospitacjaId = p.HospitacjaId,
                                  Formulazprotokolus = p.Formulazprotokolus,
                                  Odwolanie = p.Odwolanie,
-                                 NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
-                                 KodKursu = p.Hospitacja.KursKodNavigation.Kod
+                                 Kurs = p.Hospitacja.KursKodNavigation,
                              };
 
             var query_zakceptowane = from p in _context.Protokoly
@@ -41,13 +43,13 @@ namespace HospitatorBackend.Controllers
                                      && p.Zakceptowane == true
                                      select new ProtokolDto()
                                      {
+                                         Id = p.Id,
                                          Zakceptowane = p.Zakceptowane,
                                          DataWystawienia = p.DataWystawienia,
                                          DataZapoznania = p.DataZapoznania,
+                                         HospitacjaId = p.HospitacjaId,
                                          Formulazprotokolus = p.Formulazprotokolus,
-                                         Odwolanie = p.Odwolanie,
-                                         NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
-                                         KodKursu = p.Hospitacja.KursKodNavigation.Kod
+                                         Odwolanie = p.Odwolanie
                                      };
 
             var query_zareklamowane = from p in _context.Protokoly
@@ -55,13 +57,13 @@ namespace HospitatorBackend.Controllers
                                       && p.Odwolanie != null
                                       select new ProtokolDto()
                                       {
+                                          Id = p.Id,
                                           Zakceptowane = p.Zakceptowane,
                                           DataWystawienia = p.DataWystawienia,
                                           DataZapoznania = p.DataZapoznania,
+                                          HospitacjaId = p.HospitacjaId,
                                           Formulazprotokolus = p.Formulazprotokolus,
-                                          Odwolanie = p.Odwolanie,
-                                          NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
-                                          KodKursu = p.Hospitacja.KursKodNavigation.Kod
+                                          Odwolanie = p.Odwolanie
                                       };
 
             return Ok(new PrzegladOcenDto()
@@ -72,8 +74,39 @@ namespace HospitatorBackend.Controllers
             });
         }
 
+        [HttpGet("{id_prowadzacego:int}/{id_protokolu:int}")]
+        public ActionResult<ProtokolDto> GetOcena(int id_prowadzacego, int id_protokolu)
+        {
+            var p = _context.Protokoly
+                .Include(p => p.Hospitacja.KursKodNavigation)
+                .Include(p => p.Odwolanie)
+                .Include(p => p.Formulazprotokolus)
+                .FirstOrDefault(p => p.Id == id_protokolu);
 
-        [HttpPost("/Reklamuj")]
+            if (p == null)
+            {
+                return NotFound();
+            }
+
+            if (p.Hospitacja.ProwadzacyId != id_prowadzacego)
+            {
+                return BadRequest("Ta ocena nie nalerzy do ciebie");
+            }
+
+            return Ok(new ProtokolDto()
+            {
+                Zakceptowane = p.Zakceptowane,
+                DataWystawienia = p.DataWystawienia,
+                DataZapoznania = p.DataZapoznania,
+                HospitacjaId = p.HospitacjaId,
+                Formulazprotokolus = p.Formulazprotokolus,
+                Odwolanie = p.Odwolanie,
+                Kurs = p.Hospitacja.KursKodNavigation
+            });
+        }
+
+
+        [HttpPost("Reklamuj")]
         public ActionResult<ReklamacjaDto> ZareklamujOcene(ReklamacjaDto r)
         {
             var protokol = _context.Protokoly.First(p => p.Id == r.ProtokolId && p.Hospitacja.Prowadzacy.Id == r.ProwadzacyId);
@@ -106,11 +139,11 @@ namespace HospitatorBackend.Controllers
             return Ok(r);
         }
 
-        [HttpPut("{id_prowadzacego:int}/Akceptuj/{id_protokolu:int}")]
-        public async Task<ActionResult<ProtokolDto>> ZakceptujOcene(int id_prowadzacego, int id_protokolu)
+        [HttpPut("{id_nauczyciela:int}/{id_protokolu:int}")]
+        public async Task<ActionResult<ProtokolDto>> ZakceptujOcene(int id_nauczyciela, int id_protokolu)
         {
             var protokol = _context.Protokoly
-                .Where(p => p.Hospitacja.Prowadzacy.Id == id_prowadzacego && p.Odwolanie == null)
+                .Where(p => p.Hospitacja.Prowadzacy.Id == id_nauczyciela && p.Odwolanie == null)
                 .First(p => p.Id == id_protokolu);
 
             if (protokol == null)

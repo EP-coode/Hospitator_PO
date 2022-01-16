@@ -1,33 +1,23 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import OcenyList from "../components/OcenyList"
+import ProwadzacyContext from "../context/ProwadzacyContext"
 import settings from "../settings"
 
 function MojeOceny() {
     const [nowe, setNowe] = useState([])
     const [zareklamowane, setZareklamowane] = useState([])
     const [zakceptowane, setZakceptowane] = useState([])
+    const { idProwadzacego } = useContext(ProwadzacyContext)
 
     useEffect(() => {
-        async function fetchApi(idProwadzacego = 3) {
+        async function fetchApi() {
             try {
-                const url = `${settings.api_url}/${idProwadzacego}`
+                const url = `${settings.api_url}/Oceny/${idProwadzacego}`
                 const response = await fetch(url)
                 const result = await response.json()
-                //debugger;
-
-                function mapObejcts(e) {
-                    return e.map((e) => ({
-                        id: e.id,
-                        nazwaKursu: e.nazwaKursu,
-                        kodKursu: e.kodKursu,
-                        termin: e.dataWystawienia,
-                        ocena: e.formulazprotokolus.ocenaKoncowa
-                    }))
-                }
-
-                setZareklamowane(mapObejcts(result.zareklamowane))
-                setZareklamowane(mapObejcts(result.zareklamowane))
-                setZareklamowane(mapObejcts(result.zareklamowane))
+                setNowe(result.nowe)
+                setZakceptowane(result.zakceptowane)
+                setZareklamowane(result.zareklamowane)
             }
             catch (e) {
                 console.warn(e)
@@ -35,10 +25,10 @@ function MojeOceny() {
 
         }
         fetchApi()
-    }, [])
+    }, [idProwadzacego])
 
-    const onSzczegulClick = (id)=>{
-        
+    const onSzczegulClick = (id) => {
+
     }
 
     return (

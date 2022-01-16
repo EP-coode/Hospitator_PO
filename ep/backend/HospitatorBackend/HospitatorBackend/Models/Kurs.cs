@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitatorBackend.Models
@@ -27,8 +28,10 @@ namespace HospitatorBackend.Models
         public int? Semestr { get; set; }
 
         [InverseProperty(nameof(Grupazajeciowa.KursKodNavigation))]
+        [JsonIgnore]
         public virtual ICollection<Grupazajeciowa> Grupazajeciowas { get; set; }
         [InverseProperty(nameof(Hospitacja.KursKodNavigation))]
+        [JsonIgnore]
         public virtual ICollection<Hospitacja> Hospitacjas { get; set; }
     }
 }
