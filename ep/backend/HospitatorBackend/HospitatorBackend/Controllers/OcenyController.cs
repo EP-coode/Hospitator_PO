@@ -139,7 +139,7 @@ namespace HospitatorBackend.Controllers
             return Ok(r);
         }
 
-        [HttpPut("{id_nauczyciela:int}/{id_protokolu:int}")]
+        [HttpGet("Akceptuj/{id_nauczyciela:int}/{id_protokolu:int}")]
         public async Task<ActionResult<ProtokolDto>> ZakceptujOcene(int id_nauczyciela, int id_protokolu)
         {
             var protokol = _context.Protokoly
