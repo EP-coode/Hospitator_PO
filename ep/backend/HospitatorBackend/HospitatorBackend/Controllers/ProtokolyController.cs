@@ -29,13 +29,15 @@ namespace HospitatorBackend.Controllers
         {
             return await _context.Protokoly.Select(p => new ProtokolDto()
             {
-                DataWystawienia = p.DataWystawienia,
-                DataZapoznania = p.DataZapoznania,
                 Id = p.Id,
                 HospitacjaId = p.HospitacjaId,
-                Odwolanie = p.Odwolanie,
-                Formulazprotokolus = p.Formulazprotokolus,
                 Zakceptowane = p.Zakceptowane,
+                DataWystawienia = p.DataWystawienia,
+                DataZapoznania = p.DataZapoznania,
+                Formulazprotokolus = p.Formulazprotokolus,
+                Odwolanie = p.Odwolanie,
+                NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
+                KodKursu = p.Hospitacja.KursKodNavigation.Kod
             }).ToListAsync();
         }
 
@@ -44,15 +46,20 @@ namespace HospitatorBackend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProtokolDto>> GetProtokolById(int id)
         {
-            return await _context.Protokoly.Where(p => p.Id == id).Select(p => new ProtokolDto()
+            return await _context.Protokoly
+                .Include(p => p.Hospitacja.KursKodNavigation)
+                .Where(p => p.Id == id)
+                .Select(p => new ProtokolDto()
             {
-                DataWystawienia = p.DataWystawienia,
-                DataZapoznania = p.DataZapoznania,
                 Id = p.Id,
                 HospitacjaId = p.HospitacjaId,
-                Odwolanie = p.Odwolanie,
-                Formulazprotokolus = p.Formulazprotokolus,
                 Zakceptowane = p.Zakceptowane,
+                DataWystawienia = p.DataWystawienia,
+                DataZapoznania = p.DataZapoznania,
+                Formulazprotokolus = p.Formulazprotokolus,
+                Odwolanie = p.Odwolanie,
+                NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
+                KodKursu = p.Hospitacja.KursKodNavigation.Kod
             }).FirstAsync();
         }
 
@@ -100,15 +107,7 @@ namespace HospitatorBackend.Controllers
             _context.FromularzeProtokolow.Add(f);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetProtokolById), new { id = p.Id }, new ProtokolDto()
-            {
-                DataWystawienia = p.DataWystawienia,
-                DataZapoznania = p.DataZapoznania,
-                Id = p.Id,
-                HospitacjaId = p.HospitacjaId,
-                Odwolanie = p.Odwolanie,
-                Zakceptowane = p.Zakceptowane,
-            });
+            return CreatedAtAction(nameof(GetProtokolById), new { id = p.Id }, null );
         }
        
     }

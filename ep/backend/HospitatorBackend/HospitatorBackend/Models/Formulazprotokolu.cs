@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitatorBackend.Models
@@ -35,6 +36,7 @@ namespace HospitatorBackend.Models
 
         [ForeignKey(nameof(ProtokolId))]
         [InverseProperty("Formulazprotokolus")]
+        [JsonIgnore]
         public virtual Protokol? Protokol { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitatorBackend.Models
@@ -23,13 +24,16 @@ namespace HospitatorBackend.Models
         public int? ProwadzacyId { get; set; }
 
         [ForeignKey(nameof(ProwadzacyId))]
+        [JsonIgnore]
         [InverseProperty("Zespolhospitujacies")]
         public virtual Prowadzacy? Prowadzacy { get; set; }
         [InverseProperty(nameof(Hospitacja.ZespolHospitujacy))]
+        [JsonIgnore]
         public virtual ICollection<Hospitacja> Hospitacjas { get; set; }
 
         [ForeignKey("ZespolId")]
         [InverseProperty("Zespols")]
+        [JsonIgnore]
         public virtual ICollection<Prowadzacy> Prowadzacies { get; set; }
 
         //public virtual ICollection<Prowadzacy_ZespolHospitujacy> Skald { get; set ;}
