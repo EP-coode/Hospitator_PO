@@ -17,14 +17,19 @@ namespace HospitatorBackend.Models
         [Key]
         [Column("id", TypeName = "int(11)")]
         public int Id { get; set; }
+
         [Column("termin")]
         public DateOnly? Termin { get; set; }
+
         [Column("harmonogram_id", TypeName = "int(11)")]
         public int? HarmonogramId { get; set; }
+
         [Column("zespol_hospitujacy_id", TypeName = "int(11)")]
         public int? ZespolHospitujacyId { get; set; }
+
         [Column("prowadzacy_id", TypeName = "int(11)")]
         public int? ProwadzacyId { get; set; }
+
         [Column("kurs_kod")]
         public string? KursKod { get; set; }
 
@@ -49,6 +54,6 @@ namespace HospitatorBackend.Models
         public virtual Zespolhospitujacy? ZespolHospitujacy { get; set; }
 
         [JsonIgnore]
-        public virtual Protokol? Protokol { get; set; } 
+        public virtual Protokol? Protokol { get; set; }
     }
 }

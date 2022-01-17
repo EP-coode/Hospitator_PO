@@ -28,3 +28,6 @@ INSERT INTO `prowadzacy_zespolhospitujacy` (`prowadzacy_id`, `zespol_id`) VALUES
 INSERT INTO `hospitacja` (`id`, `termin`, `harmonogram_id`, `zespol_hospitujacy_id`, `prowadzacy_id`, `kurs_kod`) VALUES
 (1, '2022-01-19', 1, 1, 3, 'SCZ001114S'),
 (2, '2022-01-31', 1, 1, 2, 'INZ004358W');
+
+INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zakceptowane`, `data_zapoznania`) VALUES (NULL, '1', '2022-01-04', '0', NULL);
+INSERT INTO `formulazprotokolu` (`id`, `protokol_id`, `ocena_koncowa`, `punktualnie`, `opuznienie`, `sprawdzono_obecnosc`, `liczba_obecnych`, `sala_przystosowana`, `powody_nieprzystosowania`, `tresc_kursu_zgodna`) VALUES (NULL, '1', '5', '1', NULL, '1', '13', '0', 'Sprzęt z 19 wieku', NULL);

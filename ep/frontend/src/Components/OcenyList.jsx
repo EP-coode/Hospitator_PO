@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 
-function OcenyListItem({ nazwaKursu, termin, ocena, id, onSczegulyClick, onAkceptujClick, onReklamujClick }) {
+function OcenyListItem({ nazwaKursu, termin, ocena, id, onDetailsClick, onAkceptujClick, onReklamujClick }) {
     return (
         <div>
             <div>
@@ -11,9 +11,13 @@ function OcenyListItem({ nazwaKursu, termin, ocena, id, onSczegulyClick, onAkcep
                     <div>Ocena końcowa: {ocena}</div>
                 </div>
                 <div>
-                    <Link to={`/MojeOceny/${id}`}>Szczegóły</Link>
-                    <button>Akceptuj</button>
-                    <button>Reklamuj</button>
+                    <button onClick={() => onDetailsClick(id)}>Sczegóły</button>
+                    {
+                        onAkceptujClick && <button onClick={() => onAkceptujClick(id)}>Akceptuj</button>
+                    }
+                    {
+                        onReklamujClick && <button onClick={() => onReklamujClick(id)}>Reklamuj</button>
+                    }
                 </div>
             </div>
         </div>
@@ -21,15 +25,16 @@ function OcenyListItem({ nazwaKursu, termin, ocena, id, onSczegulyClick, onAkcep
 }
 
 
-function OcenyList({ oceny }) {
-    // debugger
+function OcenyList({ oceny, onDetailsClick, onAkceptujClick }) {
 
     const items = oceny.map(p => <OcenyListItem
         nazwaKursu={`${p.kurs.kod} ${p.kurs.nazwa}`}
         ocena={p.formulazprotokolus.ocenaKoncowa}
         termin={p.dataWystawienia}
         key={p.id}
-        id={p.id} />)
+        id={p.id}
+        onDetailsClick={onDetailsClick}
+        onAkceptujClick={onAkceptujClick} />)
 
     return (
         <ul className="oceny-list">

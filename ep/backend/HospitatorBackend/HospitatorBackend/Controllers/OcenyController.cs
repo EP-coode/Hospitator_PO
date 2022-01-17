@@ -49,7 +49,8 @@ namespace HospitatorBackend.Controllers
                                          DataZapoznania = p.DataZapoznania,
                                          HospitacjaId = p.HospitacjaId,
                                          Formulazprotokolus = p.Formulazprotokolus,
-                                         Odwolanie = p.Odwolanie
+                                         Odwolanie = p.Odwolanie,
+                                         Kurs = p.Hospitacja.KursKodNavigation,
                                      };
 
             var query_zareklamowane = from p in _context.Protokoly
@@ -63,7 +64,8 @@ namespace HospitatorBackend.Controllers
                                           DataZapoznania = p.DataZapoznania,
                                           HospitacjaId = p.HospitacjaId,
                                           Formulazprotokolus = p.Formulazprotokolus,
-                                          Odwolanie = p.Odwolanie
+                                          Odwolanie = p.Odwolanie,
+                                          Kurs = p.Hospitacja.KursKodNavigation,
                                       };
 
             return Ok(new PrzegladOcenDto()
@@ -74,36 +76,36 @@ namespace HospitatorBackend.Controllers
             });
         }
 
-        [HttpGet("{id_prowadzacego:int}/{id_protokolu:int}")]
-        public ActionResult<ProtokolDto> GetOcena(int id_prowadzacego, int id_protokolu)
-        {
-            var p = _context.Protokoly
-                .Include(p => p.Hospitacja.KursKodNavigation)
-                .Include(p => p.Odwolanie)
-                .Include(p => p.Formulazprotokolus)
-                .FirstOrDefault(p => p.Id == id_protokolu);
+        //[HttpGet("{id_prowadzacego:int}/{id_protokolu:int}")]
+        //public ActionResult<ProtokolDto> GetOcena(int id_prowadzacego, int id_protokolu)
+        //{
+        //    var p = _context.Protokoly
+        //        .Include(p => p.Hospitacja.KursKodNavigation)
+        //        .Include(p => p.Odwolanie)
+        //        .Include(p => p.Formulazprotokolus)
+        //        .FirstOrDefault(p => p.Id == id_protokolu);
 
-            if (p == null)
-            {
-                return NotFound();
-            }
+        //    if (p == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (p.Hospitacja.ProwadzacyId != id_prowadzacego)
-            {
-                return BadRequest("Ta ocena nie nalerzy do ciebie");
-            }
+        //    if (p.Hospitacja.ProwadzacyId != id_prowadzacego)
+        //    {
+        //        return BadRequest("Ta ocena nie nalerzy do ciebie");
+        //    }
 
-            return Ok(new ProtokolDto()
-            {
-                Zakceptowane = p.Zakceptowane,
-                DataWystawienia = p.DataWystawienia,
-                DataZapoznania = p.DataZapoznania,
-                HospitacjaId = p.HospitacjaId,
-                Formulazprotokolus = p.Formulazprotokolus,
-                Odwolanie = p.Odwolanie,
-                Kurs = p.Hospitacja.KursKodNavigation
-            });
-        }
+        //    return Ok(new ProtokolDto()
+        //    {
+        //        Zakceptowane = p.Zakceptowane,
+        //        DataWystawienia = p.DataWystawienia,
+        //        DataZapoznania = p.DataZapoznania,
+        //        HospitacjaId = p.HospitacjaId,
+        //        Formulazprotokolus = p.Formulazprotokolus,
+        //        Odwolanie = p.Odwolanie,
+        //        Kurs = p.Hospitacja.KursKodNavigation
+        //    });
+        //}
 
 
         [HttpPost("Reklamuj")]

@@ -1,65 +1,35 @@
 import { useState, useContext, useEffect } from 'react'
+
+import { Link, Route, Routes, useNavigate } from "react-router-dom"
+
 import MojeOceny from "./Pages/MojeOceny"
-import { Link, Route, Routes } from "react-router-dom"
+import Login from './Pages/Login'
+import UserPanel from "./Pages/UserPanel"
 import ProwadzacyContext from "./context/ProwadzacyContext"
-import SzczegolyOceny from "./Pages/SzczegolyOceny"
-import settings from './settings'
+
 import './App.css'
+import Hospituj from './Pages/Hospituj'
+import ProtokolForm from './Pages/ProtokolForm'
 
 function App() {
-  const [prowadzacy, setProwadzacy] = useState([])
   const prowadzacyCtx = useContext(ProwadzacyContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    async function fetchProwadzacy() {
-      try {
-        const result = await fetch(`${settings.api_url}/Prowadzacy`)
-        const data = await result.json()
-        setProwadzacy(data)
-      }
-      catch (e) {
-        console.log(e);
-      }
-    }
-    fetchProwadzacy()
-    return () => {
-      // todo
+    if (parseInt(prowadzacyCtx.idProwadzacego) < 0) {
+      navigate("/Login")
     }
   }, [])
-
-  const onProwadzacyChange = e => {
-    debugger
-    const prowadzacyId = e.target.value
-    const p = prowadzacy.find(p => p.id == prowadzacyId)
-    prowadzacyCtx.setIdProwadzacego(prowadzacyId)
-    prowadzacyCtx.setNazwaProwadzacego(`${p.imie} ${p.nazwisko}`)
-    debugger
-  }
-
-  const prowadzacy_options = prowadzacy.map(p => (
-    <option value={p.id} key={p.id}>{`${p.imie} ${p.nazwisko} - ${p.id}`}</option>
-  ))
 
   return (
     <div className="App">
       My app
-      <nav>
-        <select onChange={onProwadzacyChange}>
-          {prowadzacy_options}
-        </select>
-        <div>
-          {prowadzacyCtx.idProwadzacego > 0
-            ? `Wybrano Prowadzacego: ${prowadzacyCtx.nazwaProwadzacego} - ${prowadzacyCtx.idProwadzacego}`
-            : "Nie wybrano prowadzacego"
-          }
-        </div>
-        <Link to="/MojeOceny">Moje oceny</Link>
-        {/* <Link to="/OtrzymaneOceny"> przegladaj otrzymane oceny</Link> */}
-      </nav>
       <Routes>
+        <Route path="/" element={<UserPanel />} />
+        <Route path="/Login" element={<Login />} />
         <Route path="/MojeOceny" element={<MojeOceny />} />
-        <Route path="/MojeOceny/:idProtokolu" element={<SzczegolyOceny />} />
-        {/* <Route path="/OtrzymaneOceny" element={<OtrzymaneOceny />} /> */}
+        <Route path="/Hospitacje/:idHospitacji" element={<ProtokolForm />} />
+        <Route path="/Hospitacje" element={<Hospituj />} />
       </Routes>
     </div>
   )

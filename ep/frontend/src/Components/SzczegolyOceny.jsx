@@ -4,42 +4,8 @@ import ProwadzacyContext from "../context/ProwadzacyContext"
 
 import settigns from '../settings'
 
-function SzeegolyOceny() {
-    const { idProtokolu } = useParams()
-    const [szczegolyOceny, setSzczegolyOceny] = useState({
-        kurs: {
-            kod: "",
-            nazwa: ""
-        },
-        formulazprotokolus: {
-            id: 1,
-            ocenaKoncowa: 1,
-            punktualnie: false,
-            opuznienie: false,
-            sprawdzonoObecnosc: false,
-            liczbaObecnych: 1,
-            salaPrzystosowana: false,
-            powodyNieprzystosowania: "",
-            trescKursuZgodna: false
-        }
-    })
-    const { idProwadzacego } = useContext(ProwadzacyContext)
-
-    useEffect(() => {
-        async function GetSzczegoly() {
-            const url = `${settigns.api_url}/Oceny/${idProwadzacego}/${idProtokolu}`
-            debugger
-            const result = await fetch(url)
-            const data = await result.json()
-            setSzczegolyOceny(data)
-            debugger
-        }
-        GetSzczegoly()
-        return () => {
-            // todo
-        }
-    }, [idProwadzacego, idProtokolu])
-
+function SzeegolyOceny({ szczegolyOceny }) {
+   
     return (
         <div className="szczegoly-oceny">
             <div className="szczegoly-oceny__informacje-ogolne">
