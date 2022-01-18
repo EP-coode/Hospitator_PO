@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 import ProwadzacyContext from "../context/ProwadzacyContext"
 
@@ -15,9 +15,9 @@ function Navigation() {
                 Zalogowano jako: {`${prowadzacyCtx.nazwaProwadzacego} - ${prowadzacyCtx.idProwadzacego}`}
             </h3>
             <div className="navigation__options">
-                <Link to="/Login"><button className="navigation__option">Wyloguj</button></Link>
-                <Link to="/MojeOceny"><button className="navigation__option">Moje oceny</button></Link>
-                <Link to="/Hospitacje"><button className="navigation__option">Hospituj</button></Link>
+                <NavLink to="/Login" className={active => active.isActive ? "navigation__option --active" : "navigation__option"}>Wyloguj</NavLink>
+                <NavLink to="/MojeOceny" className={active => active.isActive ? "navigation__option --active" : "navigation__option"}>Moje oceny</NavLink>
+                <NavLink to="/Hospitacje" className={active => active.isActive ? "navigation__option --active" : "navigation__option"}>Hospituj</NavLink>
             </div>
         </nav>
     );

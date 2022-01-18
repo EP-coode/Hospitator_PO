@@ -1,5 +1,6 @@
 .hospitacja {
     display: flex;
+    border: 2px solid var(--bg-secondary);
     background-color: var(--bg-gray);
     border-radius: 0.5rem;
     width: fit-content;
@@ -20,6 +21,7 @@
 }
 
 .hospitacje-list {
+    margin-top: 5rem;
     list-style: none;
     padding: 0;
 }

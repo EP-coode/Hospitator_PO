@@ -1,4 +1,6 @@
-.oceny {}
+.oceny {
+    margin-top: 5rem;
+}
 
 .oceny__type-header {}
 
@@ -8,4 +10,6 @@
     width: 100%;
     height: 12rem;
     font-size: 1.5rem;
+    color: var(--font-primary);
+    background-color: var(--bg-secondary);
 }

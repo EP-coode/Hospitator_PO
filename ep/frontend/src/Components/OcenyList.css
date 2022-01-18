@@ -13,6 +13,7 @@
     background-color: var(--bg-gray);
     border-radius: 0.5rem;
     width: fit-content;
+    border: 2px solid var(--bg-secondary);
 }
 
 .ocena__details {

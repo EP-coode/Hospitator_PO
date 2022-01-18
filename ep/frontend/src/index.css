@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
 
 :root {
-  --bg-primary: rgb(255, 255, 255);
-  --bg-secondary: rgb(7, 84, 156);
-  --bg-gray: rgb(189, 189, 189);
-  --font-primary: #000000;
-  --font-secondary: rgb(255, 255, 255);
-  --font-third: rgb(7, 118, 221);
+  --bg-primary: #0B0C10;
+  --bg-secondary: #1F2833;
+  --outline-dark-blue: #45A29E;
+  --font-primary: #C5C6C7;
+  --font-secondary: #66FCF1;
+  --font-third: #66FCF1;
   color: var(--font-primary);
   background-color: var(--bg-primary);
   --transition: 200ms
@@ -19,12 +19,12 @@ body {
 }
 
 button {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-primary);
   border-radius: 0.4em;
-  border: 1px solid rgb(7, 118, 221);
+  border: 1px solid var(--outline-dark-blue);
   display: inline-block;
   cursor: pointer;
-  color: #ffffff;
+  color: var(--font-primary);
   font-family: Arial;
   font-size: 1.2rem;
   padding: 0.5rem;
@@ -33,7 +33,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--font-third);
+  background-color: var(--bg-secondary);
   transition-duration: var(--transition);
 }
 

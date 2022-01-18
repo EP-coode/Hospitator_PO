@@ -1,8 +1,7 @@
 .login {
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 1);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 1);
-    box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 1);
+    border: 2px solid var(--bg-secondary);
     border-radius: 0.5rem;
+    font-size: 1.2rem;
 
     display: flex;
     flex-direction: column;
@@ -22,12 +21,15 @@
 }
 
 .login__header {
-    font-size: 2rem;
+    font-size: 3rem;
     margin: 1rem;
+    color: var(--font-secondary);
 }
 
 .login>select {
     font-size: 1.2rem;
+    background-color: var(--bg-secondary);
+    color: var(--font-primary);
 }
 
 .login>select>option {}
