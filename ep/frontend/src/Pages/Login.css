@@ -1,0 +1,33 @@
+.login {
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 1);
+    box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 1);
+    border-radius: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+    width: 20rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -100%);
+}
+
+.login>div {
+    margin: 1rem;
+}
+
+.login__header {
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+.login>select {
+    font-size: 1.2rem;
+}
+
+.login>select>option {}

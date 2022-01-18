@@ -7,6 +7,9 @@ import OcenyList from "../components/OcenyList"
 import ProwadzacyContext from "../context/ProwadzacyContext"
 import settings from "../settings"
 import SzeegolyOceny from "../Components/SzczegolyOceny"
+import Navigation from '../Components/Navigation'
+
+import './MojeOceny.css'
 
 const modal_type = Object.freeze({
     SZCZEGOLY: 1,
@@ -76,15 +79,21 @@ function MojeOceny() {
     }
 
     return (
-        <div className="wybor-hospitacji">
-            Hospitacja Prowadzacego:
-            <div>
-                Nowe:
-                <OcenyList oceny={nowe} onDetailsClick={onDetailsClick} onAkceptujClick={onAcceptClick} />
-                Zakceptowane:
-                <OcenyList oceny={zakceptowane} onDetailsClick={onDetailsClick} />
-                Zareklamowane:
-                <OcenyList oceny={zareklamowane} onDetailsClick={onDetailsClick}  />
+        <div>
+            <Navigation />
+            <div className="oceny">
+                <div className="oceny__group">
+                    <h3 className="oceny__type-header">Nowe:</h3>
+                    <OcenyList oceny={nowe} onDetailsClick={onDetailsClick} onAkceptujClick={onAcceptClick} />
+                </div>
+                <div className="oceny__group">
+                    <h3 className="oceny__type-header">Zakceptowane:</h3>
+                    <OcenyList oceny={zakceptowane} onDetailsClick={onDetailsClick} />
+                </div>
+                <div className="oceny__group">
+                    <h3 className="oceny__type-header">Zareklamowane:</h3>
+                    <OcenyList oceny={zareklamowane} onDetailsClick={onDetailsClick} />
+                </div>
                 {wybrany != null && modalType == modal_type.SZCZEGOLY &&
                     <Fragment>
                         <Modal

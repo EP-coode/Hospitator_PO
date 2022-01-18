@@ -3,6 +3,7 @@
 :root {
   --bg-primary: rgb(255, 255, 255);
   --bg-secondary: rgb(7, 84, 156);
+  --bg-gray: rgb(189, 189, 189);
   --font-primary: #000000;
   --font-secondary: rgb(255, 255, 255);
   --font-third: rgb(7, 118, 221);
@@ -15,4 +16,27 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Lato', sans-serif;
+}
+
+button {
+  background-color: var(--bg-secondary);
+  border-radius: 0.4em;
+  border: 1px solid rgb(7, 118, 221);
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: var(--font-third);
+  transition-duration: var(--transition);
+}
+
+button:active {
+  position: relative;
+  top: 1px;
 }

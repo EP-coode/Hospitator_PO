@@ -1,0 +1,27 @@
+.navigation {
+    display: flex;
+    background-color: rgb(197, 197, 197);
+    align-items: center;
+}
+
+.navigation__header {
+    display: block;
+    height: 100%;
+    font-size: 1.5rem;
+    flex-shrink: 1;
+    margin-left: 2rem;
+}
+
+.navigation__options {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-grow: 1;
+}
+
+.navigation__options:last-child {
+    margin-right: 5rem;
+}
+
+.navigation__option {
+    margin: 1rem;
+}

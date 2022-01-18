@@ -1,26 +1,24 @@
-import { Link } from "react-router-dom"
+import './OcenyList.css'
 
 
 function OcenyListItem({ nazwaKursu, termin, ocena, id, onDetailsClick, onAkceptujClick, onReklamujClick }) {
     return (
-        <div>
-            <div>
-                <div className="ocena-list-item__details">
-                    <div>Kurs: {nazwaKursu}</div>
-                    <div>Termin: {termin}</div>
-                    <div>Ocena końcowa: {ocena}</div>
-                </div>
-                <div>
-                    <button onClick={() => onDetailsClick(id)}>Sczegóły</button>
-                    {
-                        onAkceptujClick && <button onClick={() => onAkceptujClick(id)}>Akceptuj</button>
-                    }
-                    {
-                        onReklamujClick && <button onClick={() => onReklamujClick(id)}>Reklamuj</button>
-                    }
-                </div>
+        <li className="ocena">
+            <div className="ocena__details">
+                <div><strong>Kurs:</strong> {nazwaKursu}</div>
+                <div><strong>Termin:</strong> {termin}</div>
+                <div><strong>Ocena końcowa:</strong> {ocena}</div>
             </div>
-        </div>
+            <div className="ocena__actions">
+                <button onClick={() => onDetailsClick(id)}>Sczegóły</button>
+                {
+                    onAkceptujClick && <button onClick={() => onAkceptujClick(id)}>Akceptuj</button>
+                }
+                {
+                    onReklamujClick && <button onClick={() => onReklamujClick(id)}>Reklamuj</button>
+                }
+            </div>
+        </li>
     );
 }
 

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import ProwadzacyContext from "../context/ProwadzacyContext"
 
 import settings from '../settings'
+import './Login.css'
 
 function Login() {
     const navigate = useNavigate()
@@ -48,12 +49,12 @@ function Login() {
 
 
     return (
-        <div>
-            Login Panel
+        <div className='login'>
+            <h3 className='login__header'>Zaloguj jako:</h3>
             <select onChange={onProwadzacyChange}>
                 {prowadzacy_options}
             </select>
-            <div>
+            <div className='login_selected'>
                 {prowadzacyCtx.idProwadzacego > 0
                     ? `Wybrano Prowadzacego: ${prowadzacyCtx.nazwaProwadzacego} - ${prowadzacyCtx.idProwadzacego}`
                     : "Nie wybrano prowadzacego"
