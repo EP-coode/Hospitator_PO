@@ -20,6 +20,7 @@ const modal_type = Object.freeze({
 function MojeOceny() {
     const [wybrany, setWybranyProtokol] = useState(null)
     const [modalType, setModalType] = useState(modal_type.SZCZEGOLY)
+    const [argumentacjaReklamacj, setArgumentacjaReklamacji] = useState("")
 
     const [nowe, setNowe] = useState([])
     const [zareklamowane, setZareklamowane] = useState([])
@@ -27,7 +28,7 @@ function MojeOceny() {
     const { idProwadzacego } = useContext(ProwadzacyContext)
 
     useEffect(() => {
-        async function fetchApi() {
+        async function fetchOcenyProwadzacego() {
             try {
                 const url = `${settings.api_url}/Oceny/${idProwadzacego}`
                 const response = await fetch(url)
@@ -41,18 +42,61 @@ function MojeOceny() {
             }
 
         }
-        fetchApi()
+        fetchOcenyProwadzacego()
     }, [idProwadzacego])
 
-    const akceptujOcene = () => {
+    const akceptujOcene = async () => {
         if (wybrany == null)
             return;
 
-        console.log("akceptuje" + wybrany.kurs.nazwa);
-        setNowe(prev => prev.filter(o => o.id != wybrany.id))
-        setZakceptowane(prev => [...prev, wybrany])
+        const idProtokolu = wybrany.id
+        const url = `http://localhost:5091/api/Oceny/Akceptuj/${idProwadzacego}/${idProtokolu}`
+        try {
+            const result = await fetch(url)
+            if (result.status === 200) {
+                setZakceptowane([...zakceptowane, wybrany])
+                setNowe(prev => prev.filter(o => o.id != wybrany.id))
+                setWybranyProtokol(null)
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 
-        setWybranyProtokol(null)
+    const reklamujOcene = async () => {
+        if (wybrany == null)
+            return;
+
+        const idProtokolu = wybrany.id
+        const url = `http://localhost:5091/api/Oceny/Reklamuj`
+        const body = JSON.stringify({
+            prowadzacyId: parseInt(idProwadzacego),
+            protokolId: parseInt(idProtokolu),
+            uzasadnienie: argumentacjaReklamacj
+        })
+        try {
+            const result = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: body
+            })
+            if (result.ok) {
+                setZareklamowane([...zareklamowane, wybrany])
+                setNowe(prev => prev.filter(o => o.id != wybrany.id))
+                setWybranyProtokol(null)
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    const onTextareaType = e => {
+        if (e.target.value.length < 255)
+            setArgumentacjaReklamacji(e.target.value)
     }
 
     const onDetailsClick = idProtokolu => {
@@ -84,7 +128,7 @@ function MojeOceny() {
             <div className="oceny">
                 <div className="oceny__group">
                     <h3 className="oceny__type-header">Nowe:</h3>
-                    <OcenyList oceny={nowe} onDetailsClick={onDetailsClick} onAkceptujClick={onAcceptClick} />
+                    <OcenyList oceny={nowe} onDetailsClick={onDetailsClick} onAkceptujClick={onAcceptClick} onReklamujClick={onReklamujClick} />
                 </div>
                 <div className="oceny__group">
                     <h3 className="oceny__type-header">Zakceptowane:</h3>
@@ -122,11 +166,15 @@ function MojeOceny() {
                 {wybrany != null && modalType == modal_type.REKLAMUJ &&
                     <Fragment>
                         <Modal
-                            haderText={"Sczegóły oceny"}
+                            haderText={"Uzasadnij Reklamację"}
                             onClose={onModalClose}
                             closeText="Powrót"
+                            onConfirm={reklamujOcene}
+                            confirmText="Zatwierdź"
                         >
-                            <SzeegolyOceny szczegolyOceny={wybrany} />
+                            <textarea onChange={onTextareaType} value={argumentacjaReklamacj}>
+                            </textarea>
+                            <span>{argumentacjaReklamacj.length}/255</span>
                         </Modal>
                         <Backdrop />
                     </Fragment>
