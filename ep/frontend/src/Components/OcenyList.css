@@ -1,8 +1,7 @@
 .oceny-list {
     list-style: none;
-}
-
-.oceny-list>li {
+    width: 70vw;
+    max-width: 30rem;
     margin: 0 auto;
 }
 
@@ -12,8 +11,10 @@
     flex-direction: row;
     background-color: var(--bg-gray);
     border-radius: 0.5rem;
-    width: fit-content;
+    width: 100%;
     border: 2px solid var(--bg-secondary);
+    justify-content: space-between;
+    margin: 1rem 0;
 }
 
 .ocena__details {

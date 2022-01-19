@@ -6,7 +6,7 @@
   --outline-dark-blue: #45A29E;
   --font-primary: #C5C6C7;
   --font-secondary: #66FCF1;
-  --font-third: #66FCF1;
+  --font-third: #5dece3;
   color: var(--font-primary);
   background-color: var(--bg-primary);
   --transition: 200ms
@@ -32,6 +32,7 @@ button {
   text-decoration: none;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 }
 
 button:hover {
@@ -42,4 +43,8 @@ button:hover {
 button:active {
   position: relative;
   top: 1px;
+}
+
+strong {
+  color: var(--font-third);
 }

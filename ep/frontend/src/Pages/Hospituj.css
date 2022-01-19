@@ -3,9 +3,11 @@
     border: 2px solid var(--bg-secondary);
     background-color: var(--bg-gray);
     border-radius: 0.5rem;
-    width: fit-content;
+    width: 70vw;
+    max-width: 50rem;
     padding: 1rem;
-    margin: 0 auto;
+    margin: 1rem auto;
+    justify-content: space-between;
 }
 
 .hospitacja__details {

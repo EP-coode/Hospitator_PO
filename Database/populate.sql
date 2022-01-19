@@ -35,7 +35,7 @@ INSERT INTO `hospitacja` (`id`, `termin`, `harmonogram_id`, `zespol_hospitujacy_
 (2, '2022-01-31', 1, 1, 2, 'INZ004358W'),
 (3, '2022-01-3', 1, 1, 2,'INZ002013L'),
 (4, '2022-01-1', 1, 1, 3, 'INZ002014L'),
-(5, '2022-01-2', 1, 1, 3, 'INZ002015L');
+(5, '2022-01-2', 1, 2, 3, 'INZ002015L');
 
 INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zakceptowane`, `data_zapoznania`) VALUES 
 (1, 1, '2022-01-04', 0, NULL),
