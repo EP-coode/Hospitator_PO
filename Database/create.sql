@@ -23,7 +23,7 @@ CREATE TABLE Prowadzacy(
     doswiadczony BOOLEAN,
     imie VARCHAR(255),
     nazwisko VARCHAR(255),
-    tytol VARCHAR(255),
+    tytul VARCHAR(255),
     stopien_naukowy VARCHAR(255),
     stanowisko VARCHAR(255),
     jednostka_organizacyjna VARCHAR(255),
