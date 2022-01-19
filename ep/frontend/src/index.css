@@ -30,6 +30,8 @@ button {
   padding: 0.5rem;
   margin: 0.1rem;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 button:hover {

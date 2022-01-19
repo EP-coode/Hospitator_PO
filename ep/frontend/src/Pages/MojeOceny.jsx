@@ -21,6 +21,7 @@ function MojeOceny() {
     const [wybrany, setWybranyProtokol] = useState(null)
     const [modalType, setModalType] = useState(modal_type.SZCZEGOLY)
     const [argumentacjaReklamacj, setArgumentacjaReklamacji] = useState("")
+    const [sending, setSending] = useState(false)
 
     const [nowe, setNowe] = useState([])
     const [zareklamowane, setZareklamowane] = useState([])
@@ -46,8 +47,10 @@ function MojeOceny() {
     }, [idProwadzacego])
 
     const akceptujOcene = async () => {
-        if (wybrany == null)
+        if (wybrany == null || sending)
             return;
+
+        setSending(true)
 
         const idProtokolu = wybrany.id
         const url = `http://localhost:5091/api/Oceny/Akceptuj/${idProwadzacego}/${idProtokolu}`
@@ -61,6 +64,9 @@ function MojeOceny() {
         }
         catch (e) {
             console.log(e);
+        }
+        finally{
+            setSending(false)
         }
     }
 

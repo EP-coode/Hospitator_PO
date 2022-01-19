@@ -32,6 +32,7 @@
     background-color: transparent;
     border: none;
     border-bottom: 0.3rem solid transparent;
+    transition-duration: var(--transition);
 }
 
 .navigation__option:active {
