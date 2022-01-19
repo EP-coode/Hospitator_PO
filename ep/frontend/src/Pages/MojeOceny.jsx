@@ -7,6 +7,9 @@ import OcenyList from "../components/OcenyList"
 import ProwadzacyContext from "../context/ProwadzacyContext"
 import settings from "../settings"
 import SzeegolyOceny from "../Components/SzczegolyOceny"
+import Navigation from '../Components/Navigation'
+
+import './MojeOceny.css'
 
 const modal_type = Object.freeze({
     SZCZEGOLY: 1,
@@ -17,6 +20,8 @@ const modal_type = Object.freeze({
 function MojeOceny() {
     const [wybrany, setWybranyProtokol] = useState(null)
     const [modalType, setModalType] = useState(modal_type.SZCZEGOLY)
+    const [argumentacjaReklamacj, setArgumentacjaReklamacji] = useState("")
+    const [sending, setSending] = useState(false)
 
     const [nowe, setNowe] = useState([])
     const [zareklamowane, setZareklamowane] = useState([])
@@ -24,7 +29,7 @@ function MojeOceny() {
     const { idProwadzacego } = useContext(ProwadzacyContext)
 
     useEffect(() => {
-        async function fetchApi() {
+        async function fetchOcenyProwadzacego() {
             try {
                 const url = `${settings.api_url}/Oceny/${idProwadzacego}`
                 const response = await fetch(url)
@@ -38,18 +43,66 @@ function MojeOceny() {
             }
 
         }
-        fetchApi()
+        fetchOcenyProwadzacego()
     }, [idProwadzacego])
 
-    const akceptujOcene = () => {
+    const akceptujOcene = async () => {
+        if (wybrany == null || sending)
+            return;
+
+        setSending(true)
+
+        const idProtokolu = wybrany.id
+        const url = `http://localhost:5091/api/Oceny/Akceptuj/${idProwadzacego}/${idProtokolu}`
+        try {
+            const result = await fetch(url)
+            if (result.status === 200) {
+                setZakceptowane([...zakceptowane, wybrany])
+                setNowe(prev => prev.filter(o => o.id != wybrany.id))
+                setWybranyProtokol(null)
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+        finally{
+            setSending(false)
+        }
+    }
+
+    const reklamujOcene = async () => {
         if (wybrany == null)
             return;
 
-        console.log("akceptuje" + wybrany.kurs.nazwa);
-        setNowe(prev => prev.filter(o => o.id != wybrany.id))
-        setZakceptowane(prev => [...prev, wybrany])
+        const idProtokolu = wybrany.id
+        const url = `http://localhost:5091/api/Oceny/Reklamuj`
+        const body = JSON.stringify({
+            prowadzacyId: parseInt(idProwadzacego),
+            protokolId: parseInt(idProtokolu),
+            uzasadnienie: argumentacjaReklamacj
+        })
+        try {
+            const result = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: body
+            })
+            if (result.ok) {
+                setZareklamowane([...zareklamowane, wybrany])
+                setNowe(prev => prev.filter(o => o.id != wybrany.id))
+                setWybranyProtokol(null)
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 
-        setWybranyProtokol(null)
+    const onTextareaType = e => {
+        if (e.target.value.length < 255)
+            setArgumentacjaReklamacji(e.target.value)
     }
 
     const onDetailsClick = idProtokolu => {
@@ -76,15 +129,21 @@ function MojeOceny() {
     }
 
     return (
-        <div className="wybor-hospitacji">
-            Hospitacja Prowadzacego:
-            <div>
-                Nowe:
-                <OcenyList oceny={nowe} onDetailsClick={onDetailsClick} onAkceptujClick={onAcceptClick} />
-                Zakceptowane:
-                <OcenyList oceny={zakceptowane} onDetailsClick={onDetailsClick} />
-                Zareklamowane:
-                <OcenyList oceny={zareklamowane} onDetailsClick={onDetailsClick}  />
+        <div>
+            <Navigation />
+            <div className="oceny">
+                <div className="oceny__group">
+                    <h3 className="oceny__type-header">Nowe:</h3>
+                    <OcenyList oceny={nowe} onDetailsClick={onDetailsClick} onAkceptujClick={onAcceptClick} onReklamujClick={onReklamujClick} />
+                </div>
+                <div className="oceny__group">
+                    <h3 className="oceny__type-header">Zakceptowane:</h3>
+                    <OcenyList oceny={zakceptowane} onDetailsClick={onDetailsClick} />
+                </div>
+                <div className="oceny__group">
+                    <h3 className="oceny__type-header">Zareklamowane:</h3>
+                    <OcenyList oceny={zareklamowane} onDetailsClick={onDetailsClick} />
+                </div>
                 {wybrany != null && modalType == modal_type.SZCZEGOLY &&
                     <Fragment>
                         <Modal
@@ -100,7 +159,7 @@ function MojeOceny() {
                 {wybrany != null && modalType == modal_type.AKCEPTUJ &&
                     <Fragment>
                         <Modal
-                            haderText={`Czy chcesz kaceptować ocenę z kursu ${wybrany.kurs.nazwa}?`}
+                            haderText={`Czy chcesz aceptować ocenę z kursu ${wybrany.kurs.nazwa}?`}
                             onClose={onModalClose}
                             closeText="Powrót"
                             confirmText="Potwierdź"
@@ -113,11 +172,15 @@ function MojeOceny() {
                 {wybrany != null && modalType == modal_type.REKLAMUJ &&
                     <Fragment>
                         <Modal
-                            haderText={"Sczegóły oceny"}
+                            haderText={"Uzasadnij Reklamację"}
                             onClose={onModalClose}
                             closeText="Powrót"
+                            onConfirm={reklamujOcene}
+                            confirmText="Zatwierdź"
                         >
-                            <SzeegolyOceny szczegolyOceny={wybrany} />
+                            <textarea onChange={onTextareaType} value={argumentacjaReklamacj}>
+                            </textarea>
+                            <span>{argumentacjaReklamacj.length}/255</span>
                         </Modal>
                         <Backdrop />
                     </Fragment>

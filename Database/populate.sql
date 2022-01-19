@@ -3,6 +3,9 @@ INSERT INTO `harmonogram` (`id`, `zatwierdzony_wkozjk`, `zatwierdzony_dyrektor`)
 
 INSERT INTO `kurs` (`kod`, `forma`, `nazwa`, `Semestr`) VALUES
 ('INZ002012L', 'labolatorium', 'Podstawy internetu rzeczy', 5),
+('INZ002013L', 'labolatorium', 'Podstawy internetu rzeczy', 5),
+('INZ002014L', 'labolatorium', 'Podstawy internetu rzeczy', 5),
+('INZ002015L', 'labolatorium', 'Podstawy internetu rzeczy', 5),
 ('INZ004358W', 'wyklad', 'Cyberbezpieczeństwo', 5),
 ('SCZ001114S', 'seminarium', 'Techniki prezentacji', 5);
 
@@ -19,15 +22,25 @@ INSERT INTO `grupazajeciowa` (`kod`, `dzien`, `godzina`, `minuta`, `nazwa`, `mie
 ('K02-11b', 'pt', 7, 30, 'Techniki prezentacji', 'C-3, s. 118', 17, 'SCZ001114S', 3);
 
 INSERT INTO `zespolhospitujacy` (`id`, `prowadzacy_id`) VALUES
-(1, 4);
+(1, 4),
+(2, 5);
 
 INSERT INTO `prowadzacy_zespolhospitujacy` (`prowadzacy_id`, `zespol_id`) VALUES
-(5, 1),
-(1, 1);
+(1, 1),
+(1, 2),
+(5, 2);
 
 INSERT INTO `hospitacja` (`id`, `termin`, `harmonogram_id`, `zespol_hospitujacy_id`, `prowadzacy_id`, `kurs_kod`) VALUES
 (1, '2022-01-19', 1, 1, 3, 'SCZ001114S'),
-(2, '2022-01-31', 1, 1, 2, 'INZ004358W');
+(2, '2022-01-31', 1, 1, 2, 'INZ004358W'),
+(3, '2022-01-3', 1, 1, 2,'INZ002013L'),
+(4, '2022-01-1', 1, 1, 3, 'INZ002014L'),
+(5, '2022-01-2', 1, 2, 3, 'INZ002015L');
 
-INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zakceptowane`, `data_zapoznania`) VALUES (NULL, '1', '2022-01-04', '0', NULL);
-INSERT INTO `formulazprotokolu` (`id`, `protokol_id`, `ocena_koncowa`, `punktualnie`, `opuznienie`, `sprawdzono_obecnosc`, `liczba_obecnych`, `sala_przystosowana`, `powody_nieprzystosowania`, `tresc_kursu_zgodna`) VALUES (NULL, '1', '5', '1', NULL, '1', '13', '0', 'Sprzęt z 19 wieku', NULL);
+INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zakceptowane`, `data_zapoznania`) VALUES 
+(1, 1, '2022-01-04', 0, NULL),
+(2, 4, '2022-01-12', 0, NULL);
+
+INSERT INTO `formulazprotokolu` (`id`, `protokol_id`, `ocena_koncowa`, `punktualnie`, `opuznienie`, `sprawdzono_obecnosc`, `liczba_obecnych`, `sala_przystosowana`, `powody_nieprzystosowania`, `tresc_kursu_zgodna`) VALUES 
+(1, 1, 5, 1, NULL, 1, 13, 0, 'Sprzęt z 19 wieku', NULL),
+(2, 2, 3.5, 0, 20, 0, 7, 1, NULL, NULL);

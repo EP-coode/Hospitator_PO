@@ -1,0 +1,50 @@
+.protokol {
+    border: 2px solid var(--bg-secondary);
+    width: 70vw;
+    margin: 5rem auto;
+    padding: 2rem;
+    text-align: left;
+}
+
+.protokol__header {
+    color: var(--font-secondary);
+    text-align: center;
+}
+
+.protokol input,
+.protokol select,
+.protokol textarea {
+    background-color: var(--bg-secondary);
+    color: var(--font-primary);
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+}
+
+
+.protokol input:disabled,
+.protokol select:disabled,
+.protokol textarea:disabled {
+    opacity: 0.4;
+}
+
+.protokol__input-group {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+    align-items: flex-start;
+    font-size: 1.2rem;
+    border-bottom: 1px dashed var(--bg-secondary);
+    flex-wrap: wrap;
+    line-height: 1.5;
+}
+
+.protokol__input-group.--column {
+    flex-direction: column;
+}
+
+.protokol__controls {
+    display: flex;
+    margin-top: 2rem;
+    justify-content: space-between;
+}

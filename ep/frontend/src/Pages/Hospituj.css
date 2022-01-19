@@ -1,0 +1,29 @@
+.hospitacja {
+    display: flex;
+    border: 2px solid var(--bg-secondary);
+    background-color: var(--bg-gray);
+    border-radius: 0.5rem;
+    width: 70vw;
+    max-width: 50rem;
+    padding: 1rem;
+    margin: 1rem auto;
+    justify-content: space-between;
+}
+
+.hospitacja__details {
+    text-align: left;
+    margin-right: 2rem;
+    font-size: 1.2rem;
+}
+
+.hospitacja__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.hospitacje-list {
+    margin-top: 5rem;
+    list-style: none;
+    padding: 0;
+}

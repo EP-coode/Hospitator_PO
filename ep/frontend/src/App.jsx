@@ -23,7 +23,6 @@ function App() {
 
   return (
     <div className="App">
-      My app
       <Routes>
         <Route path="/" element={<UserPanel />} />
         <Route path="/Login" element={<Login />} />

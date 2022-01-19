@@ -3,8 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ProwadzacyContext from "../context/ProwadzacyContext";
+import Navigation from '../Components/Navigation'
 
 import settings from "../settings";
+import './Hospituj.css'
 
 function HospitacjaItem({ imie, nazwisko, nazwa_kursu, kod, id }) {
     const navigate = useNavigate()
@@ -14,16 +16,16 @@ function HospitacjaItem({ imie, nazwisko, nazwa_kursu, kod, id }) {
     }
 
     return (
-        <li>
-            <div>
+        <li className="hospitacja">
+            <div className="hospitacja__details">
                 <div>
-                    Imie i nazwisko: {`${imie} ${nazwisko}`}
+                    <strong>Imie i nazwisko:</strong> {`${imie} ${nazwisko}`}
                 </div>
                 <div>
-                    Nazwa kursu - kod: {`${nazwa_kursu} - ${kod}`}
+                    <strong>Nazwa kursu - kod:</strong> {`${nazwa_kursu} - ${kod}`}
                 </div>
             </div>
-            <div>
+            <div className="hospitacja__actions">
                 <button onClick={onWypelnijProtokol}>Wypełnij protokół</button>
             </div>
         </li>
@@ -64,7 +66,8 @@ function Hospituj() {
 
     return (
         <div>
-            <ul>
+            <Navigation />
+            <ul className="hospitacje-list">
                 {hospitacje_items}
             </ul>
         </div>

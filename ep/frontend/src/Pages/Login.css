@@ -1,0 +1,35 @@
+.login {
+    border: 2px solid var(--bg-secondary);
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+    width: 20rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -100%);
+}
+
+.login>div {
+    margin: 1rem;
+}
+
+.login__header {
+    font-size: 3rem;
+    margin: 1rem;
+    color: var(--font-secondary);
+}
+
+.login>select {
+    font-size: 1.2rem;
+    background-color: var(--bg-secondary);
+    color: var(--font-primary);
+}
+
+.login>select>option {}
