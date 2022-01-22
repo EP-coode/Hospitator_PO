@@ -84,7 +84,7 @@ CREATE TABLE Protokol(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     hospitacja_id INTEGER NOT NULL UNIQUE,
     data_wystawienia DATE,
-    zakceptowane BOOLEAN,
+    zaakceptowane BOOLEAN,
     data_zapoznania DATE,
 
     FOREIGN KEY (hospitacja_id) REFERENCES Hospitacja(id)
