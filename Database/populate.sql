@@ -9,7 +9,7 @@ INSERT INTO `kurs` (`kod`, `forma`, `nazwa`, `Semestr`) VALUES
 ('INZ004358W', 'wyklad', 'Cyberbezpieczeństwo', 5),
 ('SCZ001114S', 'seminarium', 'Techniki prezentacji', 5);
 
-INSERT INTO `prowadzacy` (`id`, `data_ost_hospitacji`, `habilitowany`, `uznany`, `doswiadczony`, `imie`, `nazwisko`, `tytol`, `stopien_naukowy`, `stanowisko`, `jednostka_organizacyjna`) VALUES
+INSERT INTO `prowadzacy` (`id`, `data_ost_hospitacji`, `habilitowany`, `uznany`, `doswiadczony`, `imie`, `nazwisko`, `tytul`, `stopien_naukowy`, `stanowisko`, `jednostka_organizacyjna`) VALUES
 (1, '2020-01-01', 1, 1, 1, 'Ferdynand', 'Kiepski', NULL, NULL, NULL, NULL),
 (2, '2022-01-08', 0, 0, 0, 'Marian', 'Paździoch', 'dr.', NULL, NULL, NULL),
 (3, '2022-01-07', 1, 1, 1, 'Arnold', 'Boczek', NULL, 'dr. hab.', NULL, NULL),
@@ -37,7 +37,7 @@ INSERT INTO `hospitacja` (`id`, `termin`, `harmonogram_id`, `zespol_hospitujacy_
 (4, '2022-01-1', 1, 1, 3, 'INZ002014L'),
 (5, '2022-01-2', 1, 2, 3, 'INZ002015L');
 
-INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zakceptowane`, `data_zapoznania`) VALUES 
+INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zaakceptowane`, `data_zapoznania`) VALUES 
 (1, 1, '2022-01-04', 0, NULL),
 (2, 4, '2022-01-12', 0, NULL);
 
