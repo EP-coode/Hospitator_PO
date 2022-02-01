@@ -75,7 +75,7 @@ function ProtokolFrom() {
 
         const body = {
             "hospitacjaId": parseInt(idHospitacji),
-            "ocenaKoncowa": parseInt(ocenaKoncowa),
+            "ocenaKoncowa": ocenaKoncowa,
             "punktualnie": punktualnie,
             "opuznienie": punktualnie ? 0 : opoznienie,
             "sprawdzonoObecnosc": obecnosc,
