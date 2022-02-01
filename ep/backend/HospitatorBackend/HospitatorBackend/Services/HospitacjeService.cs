@@ -67,7 +67,7 @@ namespace HospitatorBackend.Services
             {
                 ProtokolId = p.Id,
                 LiczbaObecnych = protokol.LiczbaObecnych,
-                OcenaKoncowa = protokol.OcenaKoncowa,
+                OcenaKoncowa = protokol.OcenaKoncowa.ToString(),
                 Opuznienie = protokol.Opuznienie,
                 PowodyNieprzystosowania = protokol.PowodyNieprzystosowania,
                 Punktualnie = protokol.Punktualnie,

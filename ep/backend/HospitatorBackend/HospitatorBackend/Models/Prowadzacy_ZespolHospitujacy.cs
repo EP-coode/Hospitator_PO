@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HospitatorBackend.Models
 {
@@ -7,9 +8,8 @@ namespace HospitatorBackend.Models
     {
         [Column("prowadzacy_id")]
         public int ProwadzacyID { get; set; }
-        [Column("zespol_id")]
-        public string ZespolID { get; set; }
 
-        public Zespolhospitujacy Zespolhospitujacy { get; set; }
+        [Column("zespol_id")]
+        public int ZespolID { get; set; }
     }
 }

@@ -18,7 +18,13 @@ namespace HospitatorBackend.Services
 
         public Odwolanie? ZareklamujOcene(ReklamacjaDto r)
         {
-            var protokol = _context.Protokoly.First(p => p.Id == r.ProtokolId && p.Hospitacja.Prowadzacy.Id == r.ProwadzacyId);
+            var protokol = _context.Protokoly
+                .Include(p => p.Hospitacja)
+                .Include(p => p.Odwolanie)
+                .FirstOrDefault(p => p.Id == r.ProtokolId 
+                    && p.Hospitacja.ProwadzacyId == r.ProwadzacyId 
+                    && p.Odwolanie == null
+                    && p.Zakceptowane == false);
 
             if (protokol == null)
             {
@@ -50,6 +56,7 @@ namespace HospitatorBackend.Services
         public Protokol? ZakceptujOcene(int id_nauczyciela, int id_protokolu)
         {
             var protokol = _context.Protokoly
+                .Include(p => p.Odwolanie)
                 .Where(p => p.Hospitacja.Prowadzacy.Id == id_nauczyciela && p.Odwolanie == null)
                 .First(p => p.Id == id_protokolu);
 
