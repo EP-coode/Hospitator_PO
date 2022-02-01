@@ -3,7 +3,7 @@
     public record FormularzProtokoluInputDto
     {
         public int HospitacjaId { get; set; }
-        public int OcenaKoncowa { get; set; }
+        public string OcenaKoncowa { get; set; }
         public bool Punktualnie { get; set; }
         public int? Opuznienie { get; set; }
         public bool SprawdzonoObecnosc { get; set; }

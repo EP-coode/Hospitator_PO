@@ -118,6 +118,16 @@ namespace HospitatorBackend.UnitTests
                 ZespolHospitujacyId = 1,
             });
 
+            context.Hospitacje.Add(new Hospitacja()
+            {
+                Id = 2,
+                HarmonogramId = 1,
+                KursKod = "abc-123",
+                ProwadzacyId = 1,
+                Termin = DateOnly.FromDateTime(DateTime.UtcNow),
+                ZespolHospitujacyId = 1,
+            });
+
             context.Protokoly.Add(new Protokol()
             {
                 Id = 1,

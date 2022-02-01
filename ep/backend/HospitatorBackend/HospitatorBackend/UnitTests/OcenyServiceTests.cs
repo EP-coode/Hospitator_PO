@@ -21,23 +21,6 @@ namespace HospitatorBackend.UnitTests
             context = SeedInMemoryDatabase.GetcontextDatabaseContext();
         }
 
-
-        [TestCase]
-        public void TestDodawanieProwadzacego()
-        {
-            var result = context.FromularzeProtokolow.First(context => context.Id == 1);
-
-
-            if (result == null)
-            {
-                Assert.Fail();
-            }
-            else
-            {
-                Assert.Pass();
-            }
-        }
-
         [TestCase]
         public void TestAkceptacjaOceny()
         {
