@@ -2,6 +2,7 @@
 using HospitatorBackend.Dtos;
 using HospitatorBackend.Models;
 using HospitatorBackend.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitatorBackend.Services
 {
@@ -67,21 +68,15 @@ namespace HospitatorBackend.Services
 
         public ICollection<ProtokolDto> GetNoweOcenyProwadzacego(int id_prowadzacego)
         {
-            var query_nowe = from p in _context.Protokoly
-                             where p.Hospitacja.Prowadzacy.Id == id_prowadzacego
-                             && p.Zakceptowane == false
-                             && p.Odwolanie == null
-                             select new ProtokolDto()
-                             {
-                                 Id = p.Id,
-                                 Zakceptowane = p.Zakceptowane,
-                                 DataWystawienia = p.DataWystawienia,
-                                 DataZapoznania = p.DataZapoznania,
-                                 HospitacjaId = p.HospitacjaId,
-                                 Formulazprotokolus = p.Formulazprotokolus,
-                                 Odwolanie = p.Odwolanie,
-                                 Kurs = p.Hospitacja.KursKodNavigation,
-                             };
+            var query_nowe = _context.Protokoly
+                            .Include(p => p.Hospitacja.KursKodNavigation)
+                            .Include(p => p.Odwolanie)
+                            .Include(p => p.Formulazprotokolus)
+                            .Where(p => p.Hospitacja.ProwadzacyId == id_prowadzacego
+                                && p.Zakceptowane == false
+                                && p.Odwolanie == null)
+                            .Select(p => p.ToDto());
+
 
 
             return query_nowe.ToList();
@@ -89,39 +84,28 @@ namespace HospitatorBackend.Services
 
         public ICollection<ProtokolDto> GetZakceptowaneOcenyProwadzacego(int id_prowadzacego)
         {
-            var query_zakceptowane = from p in _context.Protokoly
-                                     where p.Hospitacja.Prowadzacy.Id == id_prowadzacego
-                                     && p.Zakceptowane == true
-                                     select new ProtokolDto()
-                                     {
-                                         Id = p.Id,
-                                         Zakceptowane = p.Zakceptowane,
-                                         DataWystawienia = p.DataWystawienia,
-                                         DataZapoznania = p.DataZapoznania,
-                                         HospitacjaId = p.HospitacjaId,
-                                         Formulazprotokolus = p.Formulazprotokolus,
-                                         Odwolanie = p.Odwolanie,
-                                         Kurs = p.Hospitacja.KursKodNavigation,
-                                     };
+            var query_zakceptowane = _context.Protokoly
+                .Include(p => p.Hospitacja.KursKodNavigation)
+                .Include(p => p.Odwolanie)
+                .Include(p => p.Formulazprotokolus)
+                .Where(p => p.Hospitacja.ProwadzacyId == id_prowadzacego
+                    && p.Zakceptowane == true)
+                .Select(p => p.ToDto());
+
             return query_zakceptowane.ToList();
         }
 
         public ICollection<ProtokolDto> GetZareklamowaneOcenyProwadzacego(int id_prowadzacego)
         {
-            var query_zareklamowane = from p in _context.Protokoly
-                                      where p.Hospitacja.Prowadzacy.Id == id_prowadzacego
-                                      && p.Odwolanie != null
-                                      select new ProtokolDto()
-                                      {
-                                          Id = p.Id,
-                                          Zakceptowane = p.Zakceptowane,
-                                          DataWystawienia = p.DataWystawienia,
-                                          DataZapoznania = p.DataZapoznania,
-                                          HospitacjaId = p.HospitacjaId,
-                                          Formulazprotokolus = p.Formulazprotokolus,
-                                          Odwolanie = p.Odwolanie,
-                                          Kurs = p.Hospitacja.KursKodNavigation,
-                                      };
+
+            var query_zareklamowane = _context.Protokoly
+                .Include(p => p.Hospitacja.KursKodNavigation)
+                .Include(p => p.Odwolanie)
+                .Include(p => p.Formulazprotokolus)
+                .Where(p => p.Hospitacja.ProwadzacyId == id_prowadzacego
+                    && p.Odwolanie != null)
+                .Select(p => p.ToDto());
+
             return query_zareklamowane.ToList();
         }
     }
