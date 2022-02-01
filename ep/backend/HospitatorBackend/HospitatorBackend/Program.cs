@@ -1,8 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using HospitatorBackend.Helpers;
+using HospitatorBackend.Services;
+using HospitatorBackend.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<IOcenyService, OcenyService>();
 
 builder.Services.AddCors(options =>
 {
