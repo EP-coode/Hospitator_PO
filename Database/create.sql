@@ -1,3 +1,5 @@
+ALTER DATABASE hospitator DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 -- @BLOCK
 CREATE TABLE Kurs(
     kod VARCHAR(255),
