@@ -7,6 +7,7 @@ using HospitatorBackend.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IOcenyService, OcenyService>();
+builder.Services.AddTransient<IHospitacjeService, HospitacjeService>();
 
 builder.Services.AddCors(options =>
 {

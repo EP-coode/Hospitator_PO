@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using HospitatorBackend.Data;
 using HospitatorBackend.Models;
 using HospitatorBackend.Dtos;
+using HospitatorBackend.Services;
+using HospitatorBackend.Services.Interfaces;
 
 namespace HospitatorBackend.Controllers
 {
@@ -16,35 +18,25 @@ namespace HospitatorBackend.Controllers
     [ApiController]
     public class HospitacjaController : ControllerBase
     {
-        private readonly HospitatorDBContext _context;
+        private readonly IHospitacjeService hospitacjeService;
 
-        public HospitacjaController(HospitatorDBContext context)
+        public HospitacjaController(IHospitacjeService hospitacjeService)
         {
-            _context = context;
+            this.hospitacjeService = hospitacjeService;
         }
 
         // GET: Hospitacja
         [HttpGet("{id_przewodniczacego:int}")]
-        public async Task<ICollection<HospitacjaDto>> GetHospitacjeByPrzewodniczacy(int id_przewodniczacego)
+        public ActionResult<ICollection<HospitacjaDto>> GetHospitacjeByPrzewodniczacy(int id_przewodniczacego)
         {
-            var hospitatorDBContext = _context.Hospitacje
-                .Include(h => h.ZespolHospitujacy)
-                .Include(h => h.Prowadzacy)
-                .Include(h => h.Harmonogram)
-                .Include(h => h.KursKodNavigation)
-                .Include(h => h.Protokol)
-                .Where(h => id_przewodniczacego == h.ZespolHospitujacy.ProwadzacyId && h.Protokol == null)
-                .Select(h => new HospitacjaDto()
-                {
-                    Id = h.Id,
-                    KursKod = h.KursKod,
-                    KursKodNavigation = h.KursKodNavigation,
-                    Prowadzacy = h.Prowadzacy,
-                    Termin = h.Termin
-                });
+            var result = hospitacjeService.GetHospitacjeZespolu(id_przewodniczacego);
+            
+            if(result == null)
+            {
+                return BadRequest();
+            }
 
-
-            return await hospitatorDBContext.ToListAsync();
+            return Ok(result);
         }
     }
 }
