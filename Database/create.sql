@@ -1,3 +1,5 @@
+ALTER DATABASE hospitator DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 -- @BLOCK
 CREATE TABLE Kurs(
     kod VARCHAR(255),
@@ -93,7 +95,7 @@ CREATE TABLE Protokol(
 CREATE TABLE FormulazProtokolu(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     protokol_id INTEGER,
-    ocena_koncowa INTEGER,
+    ocena_koncowa ENUM('2', '3', '3.5', '4', '4.5', '5', '5.5'),
     punktualnie BOOLEAN,
     opuznienie INTEGER,
     sprawdzono_obecnosc BOOLEAN,

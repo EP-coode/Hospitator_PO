@@ -35,7 +35,7 @@ namespace HospitatorBackend.Models
         [Column("nazwisko")]
         [StringLength(255)]
         public string? Nazwisko { get; set; }
-        [Column("tytol")]
+        [Column("tytul")]
         [StringLength(255)]
         public string? Tytol { get; set; }
         [Column("stopien_naukowy")]

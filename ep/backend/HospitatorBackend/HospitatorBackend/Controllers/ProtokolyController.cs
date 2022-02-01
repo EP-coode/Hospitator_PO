@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using HospitatorBackend.Data;
 using HospitatorBackend.Models;
 using HospitatorBackend.Dtos;
+using HospitatorBackend.Services;
+using HospitatorBackend.Services.Interfaces;
 
 namespace HospitatorBackend.Controllers
 {
@@ -16,51 +18,11 @@ namespace HospitatorBackend.Controllers
     [ApiController]
     public class ProtokolyController : ControllerBase
     {
-        private readonly HospitatorDBContext _context;
+        private readonly IHospitacjeService hospitacjeService;
 
-        public ProtokolyController(HospitatorDBContext context)
+        public ProtokolyController(IHospitacjeService hospitacjeService)
         {
-            _context = context;
-        }
-
-        // GET: api/Protokoly
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProtokolDto>>> GetProtokols()
-        {
-            return await _context.Protokoly.Select(p => new ProtokolDto()
-            {
-                Id = p.Id,
-                HospitacjaId = p.HospitacjaId,
-                Zakceptowane = p.Zakceptowane,
-                DataWystawienia = p.DataWystawienia,
-                DataZapoznania = p.DataZapoznania,
-                Formulazprotokolus = p.Formulazprotokolus,
-                Odwolanie = p.Odwolanie,
-                NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
-                KodKursu = p.Hospitacja.KursKodNavigation.Kod
-            }).ToListAsync();
-        }
-
-        // GET: api/Protokoly/{id}
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProtokolDto>> GetProtokolById(int id)
-        {
-            return await _context.Protokoly
-                .Include(p => p.Hospitacja.KursKodNavigation)
-                .Where(p => p.Id == id)
-                .Select(p => new ProtokolDto()
-            {
-                Id = p.Id,
-                HospitacjaId = p.HospitacjaId,
-                Zakceptowane = p.Zakceptowane,
-                DataWystawienia = p.DataWystawienia,
-                DataZapoznania = p.DataZapoznania,
-                Formulazprotokolus = p.Formulazprotokolus,
-                Odwolanie = p.Odwolanie,
-                NazwaKursu = p.Hospitacja.KursKodNavigation.Nazwa,
-                KodKursu = p.Hospitacja.KursKodNavigation.Kod
-            }).FirstAsync();
+            this.hospitacjeService = hospitacjeService;
         }
 
         // POST: api/Protokoly
@@ -68,46 +30,15 @@ namespace HospitatorBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<ProtokolDto>> PostProtokol(FormularzProtokoluInputDto protokol)
         {
-            var hospitacja = _context.Hospitacje.Find(protokol.HospitacjaId);
-
-            if (hospitacja == null)
+            var result = hospitacjeService.DodajRaportHospitacji(protokol);
+            
+            if(result == null)
             {
-                return BadRequest("hospitacja o podanym id nie istnieje");
+                return BadRequest();
             }
 
-            var istiejaProtokoly = _context.Protokoly.Any(p => p.HospitacjaId == protokol.HospitacjaId);
-
-            if (istiejaProtokoly)
-            {
-                return BadRequest("Dla danej hospitacji istnieje już wypełniony protokół");
-            }
-
-            Protokol p = new()
-            {
-                DataWystawienia = DateOnly.FromDateTime(DateTime.Now),
-                HospitacjaId = hospitacja.Id,
-            };
-
-            _context.Protokoly.Add(p);
-            _context.SaveChanges();
-
-            Formulazprotokolu f = new()
-            {
-                ProtokolId = p.Id,
-                LiczbaObecnych = protokol.LiczbaObecnych,
-                OcenaKoncowa = protokol.OcenaKoncowa,
-                Opuznienie = protokol.Opuznienie,
-                PowodyNieprzystosowania = protokol.PowodyNieprzystosowania,
-                Punktualnie = protokol.Punktualnie,
-                SalaPrzystosowana = protokol.SalaPrzystosowana,
-                SprawdzonoObecnosc = protokol.SprawdzonoObecnosc,
-                TrescKursuZgodna = protokol.TrescKursuZgodna,
-            };
-
-            _context.FromularzeProtokolow.Add(f);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(GetProtokolById), new { id = p.Id }, null );
+            // tu powinien byc endpoint z zasobem ale nie stworzono go
+            return Created("", result);
         }
        
     }

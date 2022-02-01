@@ -16,8 +16,8 @@ namespace HospitatorBackend.Models
         public int Id { get; set; }
         [Column("protokol_id", TypeName = "int(11)")]
         public int? ProtokolId { get; set; }
-        [Column("ocena_koncowa", TypeName = "int(11)")]
-        public int? OcenaKoncowa { get; set; }
+        [Column("ocena_koncowa", TypeName = "enum('2','3','3.5','4','4.5','5','5.5')")]
+        public string? OcenaKoncowa { get; set; }
         [Column("punktualnie")]
         public bool? Punktualnie { get; set; }
         [Column("opuznienie", TypeName = "int(11)")]

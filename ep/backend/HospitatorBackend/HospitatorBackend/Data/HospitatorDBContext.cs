@@ -26,7 +26,7 @@ namespace HospitatorBackend.Data
         public virtual DbSet<Protokol> Protokoly { get; set; } = null!;
         public virtual DbSet<Prowadzacy> Prowadzacy { get; set; } = null!;
         public virtual DbSet<Zespolhospitujacy> ZespolyHospitujace { get; set; } = null!;
-        //public virtual DbSet<Prowadzacy_ZespolHospitujacy> Prowadzacy_ZespolHospitujacy { get; set; } = null!;
+        public virtual DbSet<Prowadzacy_ZespolHospitujacy> Prowadzacy_ZespolHospitujacy { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,6 +41,11 @@ namespace HospitatorBackend.Data
         {
             modelBuilder.UseCollation("utf8mb4_general_ci")
                 .HasCharSet("utf8mb4");
+
+            modelBuilder.Entity<Prowadzacy_ZespolHospitujacy>(entity =>
+            {
+                entity.HasKey(e => new { e.ZespolID, e.ProwadzacyID });
+            });
 
             modelBuilder.Entity<Formulazprotokolu>(entity =>
             {
