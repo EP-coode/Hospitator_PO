@@ -66,12 +66,12 @@ namespace HospitatorBackend.UnitTests
 
             ocenyService.ZakceptujOcene(1, 1);
 
-            var t =  context.Protokoly
-                .Include(p => p.Hospitacja)
-                .Include(p => p.Odwolanie)
-                    .Where(p =>
-                 p.Odwolanie == null
-                && p.Zakceptowane == true).ToList();
+            // var t =  context.Protokoly
+            //     .Include(p => p.Hospitacja)
+            //     .Include(p => p.Odwolanie)
+            //         .Where(p =>
+            //      p.Odwolanie == null
+            //     && p.Zakceptowane == true).ToList();
 
             ocenyService.ZareklamujOcene(new Dtos.ReklamacjaDto()
             {
