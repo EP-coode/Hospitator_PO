@@ -25,7 +25,7 @@ namespace HospitatorBackend.Controllers
         {
             var nowe = ocenyService.GetNoweOcenyProwadzacego(id_prowadzacego);
             var zakceptowane = ocenyService.GetZakceptowaneOcenyProwadzacego(id_prowadzacego);
-            var zareklamowane = ocenyService.GetZakceptowaneOcenyProwadzacego(id_prowadzacego);
+            var zareklamowane = ocenyService.GetZareklamowaneOcenyProwadzacego(id_prowadzacego);
 
             return Ok(new PrzegladOcenDto()
             {

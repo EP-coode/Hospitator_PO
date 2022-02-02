@@ -31,12 +31,12 @@ namespace HospitatorBackend.Services
                 return null;
             }
 
-            var istniejeRekalmacja = _context.Odwolania.Any(o => o.ProtokolId == r.ProtokolId);
+            // var istniejeRekalmacja = _context.Odwolania.Any(o => o.ProtokolId == r.ProtokolId);
 
-            if (istniejeRekalmacja)
-            {
-                return null;
-            }
+            // if (istniejeRekalmacja)
+            // {
+            //     return null;
+            // }
 
             Odwolanie rekalamcja = new()
             {
