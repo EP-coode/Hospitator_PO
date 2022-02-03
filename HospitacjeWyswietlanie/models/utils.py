@@ -7,6 +7,7 @@ def getProcessedHospitalisations():
 
     for hospitalisation in hospitalisations:
         hospDict = hospitalisation.toDict()
+        hospDict["isDone"] = isDone(hospDict["id"])
         teacher = model.ProwadzacyModel.getById(hospDict["prowadzacy_id"])
         if teacher is not None:
             hospDict["tytul_imie_nazwisko"] = str(teacher)
@@ -90,7 +91,8 @@ def getTeamHospitalisations(team_id: int):
         if hospitalisation.zespol_hospitujacy_id == team_id:
             hosp = {}
             hosp["teacher"] = models.model.ProwadzacyModel.getById(hospitalisation.prowadzacy_id).fullName
-            hosp["isDone"] = hospitalisation.isDone
+            # hosp["isDone"] = hospitalisation.isDone
+            hosp["isDone"] = isDone(hospitalisation.id)
             if hosp["isDone"]:
                 hosp["isDone"] = "Zakończona"
             else:
