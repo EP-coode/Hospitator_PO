@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="top_menu">
+        <button>Ustawienia</button>
+        <button class="most_right_menu_button" onclick="location.href='{{ url_for('home') }}'">Wyloguj</button>
+    </div>
+    <div class="welcome_text">
+        <h2>
+            Witaj, XYZ!
+        </h2>
+    </div>
+    <div class="main_menu">
+        <button class="main_menu_button">Powoływanie zespołu ds. hospitacji</button><br>
+        <button class="main_menu_button">Import danych kursu</button><br>
+        <button class="main_menu_button">Prowadzący do hospitacji</button><br>
+        <form action="/hospitalisationsPage" method="get">
+            <input type="submit" value="Zarządzanie planem" class="main_menu_button">
+        </form>
+        <button class="main_menu_button">Kursy</button><br>
+        <button class="main_menu_button">Prowadzący</button><br>
+    </div>
+
+</body>
+</html>

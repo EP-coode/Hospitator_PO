@@ -1,0 +1,52 @@
+{% extends "base_member.html" %}
+
+{% block content %}
+
+
+    <div style="text-align: center"><h1>Zespół nr {{ team_id }}</h1></div>
+
+    <div class="row">
+        <div class="column">
+            <div style="margin-top: 200px; margin-left: 640px">
+                <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Imię i nazwisko członka zespołu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in members %}
+                        <tr>
+                            <td>{{ member.fullName }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="column">
+            <div style="width: 50%; margin-top: 200px; margin-right: auto; margin-left: auto">
+                <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Imię i nazwisko prowadzącego</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Termin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for hospitalisation in hospitalisations %}
+                    <tr>
+                        <td>{{ hospitalisation["teacher"] }}</td>
+                        <td>{{ hospitalisation["isDone"] }}</td>
+                        <td>{{ hospitalisation["date"] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

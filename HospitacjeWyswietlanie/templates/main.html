@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Planer hospitacji</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+
+{#    <div class="top_menu"></div>#}
+    <div style="display: flex;  justify-content: center;margin-bottom: 20px; margin-top: 300px">
+        <p>Wybierz PU:</p><br>
+    </div>
+    <div style="display: flex;  justify-content: center;">
+        <form action="/principalMenu" method="get">
+            <input type="submit" value="Menu dyrektora">
+        </form>
+
+{#        <button onclick="location.href={{ url_for('principalMenu') }}"> Menu dyrektora</button>#}
+    </div>
+    <div style="display: flex;  justify-content: center; margin-top: 10px">
+        <form action="/memberIndex" method="get">
+            <input type="submit" value="Menu członka zespołu hospitująctego">
+        </form>
+{#        <button onclick="location.href='menuDyrektora.html'"> Menu członka zespołu hospitująctego</button>#}
+    </div>
+</body>
+</html>

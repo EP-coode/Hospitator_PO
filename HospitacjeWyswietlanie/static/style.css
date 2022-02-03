@@ -1,0 +1,74 @@
+.top_menu {
+    text-align: right;
+    background-color: #c9c9c9;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.most_right_menu_button {
+    margin-right: 5px;
+    margin-top: 4px;
+}
+
+.welcome_text {
+    text-align: center;
+    margin-top: 240px;
+}
+
+.main_menu {
+    /*align-content: center;*/
+    margin: 40px auto 0;
+    width: 20%;
+    text-align: center;
+    border: 1px solid #101010;
+    background-color: #c9c9c9;
+}
+
+.main_menu_button {
+    margin: 3px;
+}
+
+
+td {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 250px;
+}
+
+td, th {
+    border: 1px solid #101010;
+    /*text-align: center;*/
+}
+
+/*.center_td {*/
+/*}*/
+
+tr:nth-child(even) {
+    text-align: right;
+    background-color: #a0c9e3;
+}
+
+.hospitations_table {
+    margin: 0 auto;
+}
+
+.column {
+    flex: 50%;
+    padding: 10px 10px 10px ;
+    margin-right: 80px;
+    margin-left: 80px;
+
+}
+
+.row {
+  display: flex;
+}
+
+* {
+  box-sizing: border-box;
+}

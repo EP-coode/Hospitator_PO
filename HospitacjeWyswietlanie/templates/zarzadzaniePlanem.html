@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="width: 50%; margin-top: 200px; margin-right: auto; margin-left: auto">
+        <table class="table table-hover">
+  <thead>
+    <tr>
+        <th scope="col">Id hospitacji</th>
+        <th scope="col">Prowadzący</th>
+        <th></th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for hospitalisation in hospitalisations %}
+        <tr>
+           <td>{{ hospitalisation["id"] }}</td>
+           <td>{{ hospitalisation["tytul_imie_nazwisko"] }}</td>
+           <td>
+               <form action="/hospitalisationDetailsPage" method="post">
+                    <label for="id"></label>
+                    <input hidden name="id" id="id" value="{{ hospitalisation["id"] }}">
+                    <label for="teacher"></label>
+                    <input hidden name="teacher" id="teacher" value="{{ hospitalisation["tytul_imie_nazwisko"] }}">
+                    <label for="team_id"></label>
+                    <input hidden name="team_id" id="team_id" value="{{ hospitalisation["zespolhospitujacy_id"] }}">
+                    <input type="submit" value="Szczegóły">
+               </form>
+           </td>
+            <td>
+               <form action="/deleteHospitalisation" method="post">
+                    <label for="id"></label>
+                    <input hidden name="id" id="id" value="{{ hospitalisation["id"] }}">
+                    <input type="submit" value="Usuń">
+               </form>
+           </td>
+        </tr>
+    {% endfor %}
+        <tr>
+            <td colspan="4" style="text-align: center">
+                <form method="post" action="/addHospitalisationPage">
+                    <input type="submit" value="Dodaj hospitację">
+                </form>
+            </td>
+        </tr>
+  </tbody>
+</table>
+    </div>
+  {% endblock %}
