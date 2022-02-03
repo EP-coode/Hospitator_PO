@@ -51,7 +51,7 @@ namespace HospitatorBackend.UnitTests
                 DataOstHospitacji = DateOnly.FromDateTime(DateTime.UtcNow),
                 Doswiadczony = false,
                 Habilitowany = false,
-                StopienNaukowy = "kapitan",
+                StopienNaukowy = "doktor",
                 Uznany = false,
                 Tytol = "dr.",
                 Stanowisko = ""
