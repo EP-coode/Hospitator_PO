@@ -17,7 +17,7 @@ namespace HospitatorBackend.Models
         public int HospitacjaId { get; set; }
         [Column("data_wystawienia")]
         public DateOnly? DataWystawienia { get; set; }
-        [Column("zakceptowane")]
+        [Column("zaakceptowane")]
         public bool? Zakceptowane { get; set; } = false;
         [Column("data_zapoznania")]
         public DateOnly? DataZapoznania { get; set; }

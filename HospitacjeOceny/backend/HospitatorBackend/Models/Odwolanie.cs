@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitatorBackend.Models
@@ -26,9 +27,12 @@ namespace HospitatorBackend.Models
         [Column("_status", TypeName = "enum('oczekujaca','odrzucona','akceptowana')")]
         public string? Status { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(ProtokolId))]
         [InverseProperty("Odwolanie")]
         public virtual Protokol Protokol { get; set; } = null!;
+
+        [JsonIgnore]
         [ForeignKey(nameof(ProwadzacyId))]
         [InverseProperty("Odwolanies")]
         public virtual Prowadzacy? Prowadzacy { get; set; }

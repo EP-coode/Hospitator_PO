@@ -45,7 +45,7 @@ INSERT INTO `hospitacja` (`id`, `termin`, `harmonogram_id`, `zespol_hospitujacy_
 (5, '2022-01-2', 1, 2, 3, 'INZ002015L');
 
 -- @BLOCK
-INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zakceptowane`, `data_zapoznania`) VALUES 
+INSERT INTO `protokol` (`id`, `hospitacja_id`, `data_wystawienia`, `zaakceptowane`, `data_zapoznania`) VALUES 
 (1, 1, '2022-01-04', 0, NULL),
 (2, 4, '2022-01-12', 0, NULL);
 
