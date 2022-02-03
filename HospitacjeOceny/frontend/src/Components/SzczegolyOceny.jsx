@@ -5,14 +5,17 @@ import ProwadzacyContext from "../context/ProwadzacyContext"
 import settigns from '../settings'
 
 function SzeegolyOceny({ szczegolyOceny }) {
-   
+
     return (
         <div className="szczegoly-oceny">
             <div className="szczegoly-oceny__informacje-ogolne">
                 <h3>Ogólne informacje: </h3>
-                <div>
-                    Kurs: {`${szczegolyOceny.kurs.kod} - ${szczegolyOceny.kurs.nazwa}`}
-                </div>
+                {
+                    szczegolyOceny.kurs ?
+                        <div>Kurs : {`${szczegolyOceny.kurs.kod} - ${szczegolyOceny.kurs.nazwa}`}</div>
+                        : <div>Kurs: Nie ustalono</div>
+
+                }
                 <div>
                     Termin: {`${szczegolyOceny.dataWystawienia}`}
                 </div>

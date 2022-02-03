@@ -159,7 +159,7 @@ function MojeOceny() {
                 {wybrany != null && modalType == modal_type.AKCEPTUJ &&
                     <Fragment>
                         <Modal
-                            haderText={`Czy chcesz aceptować ocenę z kursu ${wybrany.kurs.nazwa}?`}
+                            haderText={wybrany.kurs ? `Czy chcesz aceptować ocenę z kursu ${wybrany.kurs.nazwa}?` : "Czy chcesz aceptować ocenę?"}
                             onClose={onModalClose}
                             closeText="Powrót"
                             confirmText="Potwierdź"

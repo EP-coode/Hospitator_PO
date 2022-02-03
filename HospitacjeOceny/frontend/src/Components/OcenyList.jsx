@@ -25,10 +25,9 @@ function OcenyListItem({ kod, nazwa, termin, ocena, id, onDetailsClick, onAkcept
 
 
 function OcenyList({ oceny, onDetailsClick, onAkceptujClick, onReklamujClick }) {
-
     const items = oceny.map(p => <OcenyListItem
-        kod={p.kurs.kod}
-        nazwa={p.kurs.nazwa}
+        kod={p.kurs ? p.kurs.kod : "Nie ustalono"}
+        nazwa={p.kurs ? p.kurs.nazwa : "Nie ustalono"}
         ocena={p.formulazprotokolus.ocenaKoncowa}
         termin={p.dataWystawienia}
         key={p.id}

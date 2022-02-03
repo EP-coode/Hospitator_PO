@@ -59,8 +59,8 @@ function Hospituj() {
         id={h.id}
         imie={h.prowadzacy.imie}
         nazwisko={h.prowadzacy.nazwisko}
-        kod={h.kursKod}
-        nazwa_kursu={`${h.kursKodNavigation.nazwa}`}
+        kod={h.kursKod || "Nie ustalono"}
+        nazwa_kursu={`${h.kursKodNavigation ? h.kursKodNavigation.nazwa : ""}`}
         key={h.id}
     />)
 
