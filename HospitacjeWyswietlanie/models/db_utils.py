@@ -21,7 +21,7 @@ class UrlHandler:
 url = UrlHandler()
 
 def make_session():
-    engine = create_engine(url.url, echo=False)
+    engine = create_engine(url.url, echo=False, pool_size=100)
     Session = sessionmaker(bind=engine)
     return Session()
 
